@@ -1,26 +1,14 @@
-CREATE TABLE Abteilung (
- aname VARCHAR(255) NOT NULL
-);
-
-ALTER TABLE Abteilung ADD CONSTRAINT PK_Abteilung PRIMARY KEY (aname);
-
+\c template1
+DROP DATABASE vsdb_03 IF EXISTS;
+CREATE DATABASE vsdb_03;
+\c vsdb_03
 
 CREATE TABLE Mitarbeiter (
  name VARCHAR(255) NOT NULL,
- abteilung CHAR(10)
+ abteilung CHAR(255)
 );
 
 ALTER TABLE Mitarbeiter ADD CONSTRAINT PK_Mitarbeiter PRIMARY KEY (name);
-
-
-CREATE TABLE Person (
- vorname VARCHAR(255) NOT NULL,
- nachname VARCHAR(255) NOT NULL,
- aname VARCHAR(255) NOT NULL,
- addresse VARCHAR(255)
-);
-
-ALTER TABLE Person ADD CONSTRAINT PK_Person PRIMARY KEY (vorname,nachname,aname);
 
 
 CREATE TABLE Veranstaltung (
@@ -40,27 +28,43 @@ CREATE TABLE Besucher (
 );
 
 ALTER TABLE Besucher ADD CONSTRAINT PK_Besucher PRIMARY KEY (name,vname,date);
-
-
-CREATE TABLE Teilnehmer (
- vorname VARCHAR(255) NOT NULL,
- nachname VARCHAR(255) NOT NULL,
- aname VARCHAR(255) NOT NULL,
- vname VARCHAR(255) NOT NULL,
- date DATE NOT NULL
-);
-
-ALTER TABLE Teilnehmer ADD CONSTRAINT PK_Teilnehmer PRIMARY KEY (vorname,nachname,aname,vname,date);
-
-
-ALTER TABLE Person ADD CONSTRAINT FK_Person_0 FOREIGN KEY (aname) REFERENCES Abteilung (aname);
-
-
 ALTER TABLE Besucher ADD CONSTRAINT FK_Besucher_0 FOREIGN KEY (name) REFERENCES Mitarbeiter (name);
 ALTER TABLE Besucher ADD CONSTRAINT FK_Besucher_1 FOREIGN KEY (vname,date) REFERENCES Veranstaltung (vname,date);
 
 
-ALTER TABLE Teilnehmer ADD CONSTRAINT FK_Teilnehmer_0 FOREIGN KEY (vorname,nachname,aname) REFERENCES Person (vorname,nachname,aname);
-ALTER TABLE Teilnehmer ADD CONSTRAINT FK_Teilnehmer_1 FOREIGN KEY (vname,date) REFERENCES Veranstaltung (vname,date);
+INSERT INTO Mitarbeiter VALUES ('Siegel','HR');
+INSERT INTO Mitarbeiter VALUES ('Schrack','Analysten');
+INSERT INTO Mitarbeiter VALUES ('Adeyemi','Sportabteilung');
+INSERT INTO Mitarbeiter VALUES ('Soyka','Finance');
+INSERT INTO Mitarbeiter VALUES ('Saxinger','Kueche');
+INSERT INTO Mitarbeiter VALUES ('Schwarzkopf','Sales');
+INSERT INTO Mitarbeiter VALUES ('Frantar','Kindergarten');
+INSERT INTO Mitarbeiter VALUES ('Ye','Putzfrauenabteilung');
+INSERT INTO Mitarbeiter VALUES ('Ahmed','Facility Management');
+INSERT INTO Mitarbeiter VALUES ('Haidn','Managment');
+INSERT INTO Mitarbeiter VALUES ('Scholz','IT');
+INSERT INTO Mitarbeiter VALUES ('Franta','IT');
 
+INSERT INTO Veranstaltung VALUES ('Halloween party',TO_DATE('31.10.2014', 'DD.MM.YYYY'),0,10);
+INSERT INTO Veranstaltung VALUES ('PPM Vortrag',TO_DATE('11.07.2014', 'DD.MM.YYYY'),1,0);
+INSERT INTO Veranstaltung VALUES ('Herbstwanderung',TO_DATE('11.11.2014', 'DD.MM.YYYY'),0,5);
+INSERT INTO Veranstaltung VALUES ('Party1',TO_DATE('04.01.2014', 'DD.MM.YYYY'),0,10);
+INSERT INTO Veranstaltung VALUES ('Party2',TO_DATE('27.10.2014', 'DD.MM.YYYY'),0,10);
+INSERT INTO Veranstaltung VALUES ('ABC Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),1,50);
+INSERT INTO Veranstaltung VALUES ('CCC',TO_DATE('31.10.2015', 'DD.MM.YYYY'),1,0);
+INSERT INTO Veranstaltung VALUES ('Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),0,0);
+INSERT INTO Veranstaltung VALUES ('Party3',TO_DATE('31.10.2014', 'DD.MM.YYYY'),0,25);
+INSERT INTO Veranstaltung VALUES ('Vortrag Wichtig',TO_DATE('13.12.2014', 'DD.MM.YYYY'),1,0);
+INSERT INTO Veranstaltung VALUES ('Vortrag zach',TO_DATE('18.11.2014', 'DD.MM.YYYY'),0,20);
 
+INSERT INTO Besucher VALUES ('Haidn','PPM Vortrag',TO_DATE('11.07.2014', 'DD.MM.YYYY'));
+INSERT INTO Besucher VALUES ('Siegel','PPM Vortrag',TO_DATE('11.07.2014', 'DD.MM.YYYY'));
+INSERT INTO Besucher VALUES ('Adeyemi','Party1',TO_DATE('04.01.2014', 'DD.MM.YYYY'));
+INSERT INTO Besucher VALUES ('Soyka','Vortrag Wichtig',TO_DATE('13.12.2014', 'DD.MM.YYYY'));
+INSERT INTO Besucher VALUES ('Saxinger','Vortrag zach',TO_DATE('18.11.2014', 'DD.MM.YYYY'));
+INSERT INTO Besucher VALUES ('Schwarzkopf','Herbstwanderung',TO_DATE('11.11.2014', 'DD.MM.YYYY'));
+INSERT INTO Besucher VALUES ('Frantar','CCC',TO_DATE('31.10.2015', 'DD.MM.YYYY'));
+INSERT INTO Besucher VALUES ('Ye','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'));
+INSERT INTO Besucher VALUES ('Ahmed','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'));
+INSERT INTO Besucher VALUES ('Haidn','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'));
+INSERT INTO Besucher VALUES ('Scholz','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'));

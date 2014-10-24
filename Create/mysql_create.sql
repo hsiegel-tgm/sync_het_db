@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS vsdb_03;
+CREATE DATABASE vsdb_03;
+USE vsdb_03;
+
 CREATE TABLE Abteilung (
  aname VARCHAR(255) NOT NULL
 );
@@ -67,17 +71,17 @@ INSERT INTO Person VALUES ('Aly','Ahmed','Facility Management','Doppelte gasse')
 INSERT INTO Person VALUES ('Martin','Haidn','Managment','Gruene gasse');
 INSERT INTO Person VALUES ('Dominik','Scholz','IT','Schwarze gasse');
 
- INSERT INTO Veranstaltung VALUES ('Halloween party','2014-10-31',0,10);
- INSERT INTO Veranstaltung VALUES ('PPM Vortrag','2014-11-07',1,0);
- INSERT INTO Veranstaltung VALUES ('Herbstwanderung','2014-11-11',0,5);
- INSERT INTO Veranstaltung VALUES ('Party1','2015-01-04',0,10);
- INSERT INTO Veranstaltung VALUES ('Party2','2014-10-27',0,10);
- INSERT INTO Veranstaltung VALUES ('ABC Konferenz','2014-10-31',1,50);
- INSERT INTO Veranstaltung VALUES ('CCC','2015-10-31',1,0);
- INSERT INTO Veranstaltung VALUES ('Weihnachtsfeier','2014-12-23',0,0);
- INSERT INTO Veranstaltung VALUES ('Party3','2014-10-31',0,25);
- INSERT INTO Veranstaltung VALUES ('Vortrag Wichtig','2014-12-13',1,0);
- INSERT INTO Veranstaltung VALUES ('Vortrag zach','2014-11-18',0,20);
+INSERT INTO Veranstaltung VALUES ('Halloween party','2014-10-31',0,10);
+INSERT INTO Veranstaltung VALUES ('PPM Vortrag','2014-11-07',1,0);
+INSERT INTO Veranstaltung VALUES ('Herbstwanderung','2014-11-11',0,5);
+INSERT INTO Veranstaltung VALUES ('Party1','2015-01-04',0,10);
+INSERT INTO Veranstaltung VALUES ('Party2','2014-10-27',0,10);
+INSERT INTO Veranstaltung VALUES ('ABC Konferenz','2014-10-31',1,50);
+INSERT INTO Veranstaltung VALUES ('CCC','2015-10-31',1,0);
+INSERT INTO Veranstaltung VALUES ('Weihnachtsfeier','2014-12-23',0,0);
+INSERT INTO Veranstaltung VALUES ('Party3','2014-10-31',0,25);
+INSERT INTO Veranstaltung VALUES ('Vortrag Wichtig','2014-12-13',1,0);
+INSERT INTO Veranstaltung VALUES ('Vortrag zach','2014-11-18',0,20);
 
  
 INSERT INTO Teilnehmer VALUES ('Martin','Haidn','Managment','PPM Vortrag','2014-11-07');
