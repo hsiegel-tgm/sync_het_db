@@ -26,7 +26,7 @@ ALTER TABLE Person ADD CONSTRAINT PK_Person PRIMARY KEY (vorname,nachname,aname)
 CREATE TABLE Veranstaltung (
  vname VARCHAR(255) NOT NULL,
  date DATE NOT NULL,
- verpflichtend BIT(10),
+ verpflichtend BOOLEAN DEFAULT false,
  kosten INT
 );
 
