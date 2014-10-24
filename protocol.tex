@@ -1,0 +1,117 @@
+\documentclass[12pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{ulem}
+\usepackage{caption}
+\usepackage{placeins}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{fixltx2e}
+\usepackage{scrpage2}
+\usepackage{lastpage}
+\clearscrheadfoot
+\pagestyle{scrheadings}
+\usepackage{glossaries}
+\usepackage[
+top    = 2.75cm,
+bottom = 2.00cm,
+left   = 2.50cm,
+right  = 2.00cm]{geometry}
+\setcounter{secnumdepth}{4}
+
+
+\makeglossaries
+
+\newglossaryentry{glossaryVerweis} {name=abkuerzung, description={Langer Name}}
+
+
+\begin{document}
+\begin{titlepage}
+\begin{center}
+% Oberer Teil der Titelseite:
+\includegraphics[width=0.5\textwidth]{images/logo}\\[1cm]    
+
+\textsc{\LARGE Technologisches Gewerbe Museum}\\[1.5cm]
+
+% Title
+\rule{12cm}{1mm}
+{ \huge \bfseries  \\\large VSDB\\ \huge Synchronisation von Heretogenen DBs \\[0.4cm] }
+
+\rule{12cm}{1mm}
+
+% Author and supervisor
+\noindent 
+\vspace{5cm}
+
+\begin{center}
+\large
+Author: 
+Schrack \textsc{Nikolas} \&
+Siegel \textsc{Hannah}
+\end{center}
+
+\vfill
+
+% Bottom of the page
+{\large \today}
+
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+
+
+%HEADER AND FOOTER
+\pagenumbering{arabic}
+\ohead{\headmark}
+\automark{section}
+\ifoot{© Schrack, Siegel}
+\ofoot{\pagemark ~of \pageref{LastPage}}
+
+\newpage
+\section{Arbeitszeit}
+\subsection{Geschaetzte Arbeitszeit}
+\begin{table}[h]
+
+\begin{tabular}{|p{0.4\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
+\hline
+\textbf{Task}    & \textbf{Person}                                               & \textbf{Time in hours                              } \\ \hline \hline
+Einlesen und Vergleich von gaengigen Middleware-produkten & \begin{tabular}[c]{c}Schrack \\ Siegel \end{tabular} & \begin{tabular}[c]{c}1\\ 1\end{tabular}    \\ \hline 
+Implementierung der Middleware & \begin{tabular}[c]{c}Schrack \\ Siegel \end{tabular} & \begin{tabular}[c]{c}5\\ 5\end{tabular}    \\ \hline
+Erstellen der Tables, inserts & \begin{tabular}[c]{c}Schrack \\ Siegel \end{tabular} & \begin{tabular}[c]{c}1\\ 1\end{tabular}    \\ \hline
+Test mit mehr als einer Tabelle  & \begin{tabular}[c]{c}Schrack \\ Siegel \end{tabular} & \begin{tabular}[c]{c}2\\ 2\end{tabular}    \\ \hline
+Dokumenation der Funktionsweise, Problematiken und Problemfälle, sowie allgemeine Dokumentation
+  & \begin{tabular}[c]{c}Schrack \\ Siegel \end{tabular} & \begin{tabular}[c]{c}1\\ 1\end{tabular}    \\ \hline
+  Testfaelle  & \begin{tabular}[c]{c}Schrack \\ Siegel \end{tabular} & \begin{tabular}[c]{c}2\\ 2\end{tabular}    \\ \hline
+ \hline
+Total & \begin{tabular}[c]{c}Schrack \\ Siegel \end{tabular} & \begin{tabular}[c]{c}12\\12\end{tabular}   \\ \hline 
+\textbf{Gesammt Team} & & \textbf{24 hours}  \\ \hline 
+\end{tabular}
+\caption{Estimated working time}
+\label{tabel:tab1}
+\end{table}
+
+
+
+
+
+\printglossaries
+\begin{thebibliography}{56}
+
+\bibitem{name}
+   \textbf{Who}, When\\
+  \textit{url}
+  \newline last used: dd.mm.yyyy, hh:mm
+ 
+ \bibitem{example} 
+  \textbf{Mister Super-genious}, Answer from 20.01.2015\\
+  \textit{http://www.stackoverflow.com/question}
+  \newline last used: 22.10.2014, 21:00
+\end{thebibliography}
+\newpage
+\end{document}
