@@ -7,23 +7,25 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 
+import remoteInterfaces.Mapper;
 import start.De;
-import interfaces.Mapper;
 
-public class MysqlServer implements Mapper {
+public class MysqlServer {
+	Mapper stub;
 	
-	public MysqlServer(){
+	public MysqlServer(MysqlConnection connection){
+		this.init(connection);
+	}
+	
+	public void init(MysqlConnection connection) {
 		String name = "Mysql";
-		Mapper stub = this;
+		
 		try {
-			stub = (Mapper) UnicastRemoteObject.exportObject(this, 0);
-			Registry registry = LocateRegistry.getRegistry();
+			stub = (Mapper) UnicastRemoteObject.exportObject(new MysqlMapper(connection), 0);
+			Registry registry = LocateRegistry.createRegistry(1099);
 			registry.bind(name, stub);
 			De.bug("Mysql Server bound");
-			
-			//System.out.println("Press any key to unbound object");
-			//System.in.read();
-			//registry.unbind(name);
+
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -31,11 +33,5 @@ public class MysqlServer implements Mapper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public boolean execute(int id, String action, String table, String pks,String values, Date date) throws RemoteException {
-		System.out.println("executed Mysql import.. not yet implemented");
-		return false; 
-		//TODO (is derzeit im Change listener fuer pgsql drinnen, einfach abaendern (: )
 	}
 }

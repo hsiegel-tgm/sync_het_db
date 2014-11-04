@@ -1,17 +1,19 @@
 package start;
 
 import postgres.ChangeListenerPostgres;
+import postgres.PostgresConnection;
 import postgres.PostgresServer;
 import mysql.ChangeListenerMysql;
+import mysql.MysqlConnection;
 import mysql.MysqlServer;
 
 public class Starter {
 	public static void main(String arg[]){
-		try {
-			Runtime.getRuntime().exec("rmiregistry");
-			Runtime.getRuntime().exec("rmid -J-Djava.security.policy=rmid.policy");
-		}
-		catch (java.io.IOException e) {}
+		//try {
+		//	Runtime.getRuntime().exec("rmiregistry");
+		//	Runtime.getRuntime().exec("rmid -J-Djava.security.policy=rmid.policy");
+		//}
+		//catch (java.io.IOException e) {}
 
 		//TODO: start rmireg :1099
 		//TODO: Stop the vm networks
@@ -31,13 +33,16 @@ public class Starter {
 			String pw = arg[4];
 			
 			if(db_type.equals("mysql")){
-				//new MysqlServer();
-				new ChangeListenerMysql(db,host,user,pw);
+				MysqlConnection connection = new MysqlConnection(db,host,user,pw);
+				MysqlServer srv = new MysqlServer(connection);
+				ChangeListenerMysql clm = new ChangeListenerMysql(connection);
 			}
 			else if(db_type.equals("postgres")){
-				new PostgresServer();
-				new ChangeListenerPostgres(db,host,user,pw);
+				PostgresConnection connection = new PostgresConnection(db,host,user,pw);
+				PostgresServer srv = new PostgresServer(connection);
+				ChangeListenerPostgres clp = new ChangeListenerPostgres(connection);
 			}
+			
 			else{
 				System.out.println("The usage is the following: \n <mysql|postgres> <db> <host> <user> <password> \n Please note, that the database should be set up correctly, as it can be found in our protocol. ");
 			}

@@ -65,4 +65,17 @@ public class PostgresConnection {
 	public Connection getConnection() {
 		return m_connection;
 	}
+	
+	public boolean execCommand(String sql) {
+		Statement st;
+		boolean ret = false;
+		try {
+			st = (Statement) m_connection.createStatement();
+			st.executeQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ret = false;
+		}
+		return ret;
+	}
 }
