@@ -136,15 +136,6 @@ public class MysqlConnection {
 		return ret;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public Connection getConnection(){
 		return m_connection;
 	}

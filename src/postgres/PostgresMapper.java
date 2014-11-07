@@ -29,6 +29,7 @@ public class PostgresMapper implements Mapper{
 		JsonObject values = jsonReader_values.readObject();
 		jsonReader_values.close();
 		
+		//TODO glob schema!!
 		if(table.equalsIgnoreCase("Teilnehmer")){
 			ret = executeTeilnehmer(action, primary_keys, values);
 		}else if (table.equalsIgnoreCase("Veranstaltung")){

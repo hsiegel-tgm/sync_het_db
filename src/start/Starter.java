@@ -50,6 +50,12 @@ public class Starter {
 			else if(db_type.equals("syncserver")){
 				SyncServer a = new SyncServer();
 			}
+			else if(db_type.equals("pgcontest")){
+				PostgresConnection connection = new PostgresConnection(db,host,user,pw);
+				connection.getLoggerCount(); //Testen
+				connection.getLoggerContent(); //Testen
+				
+			}
 			else if(db_type.equals("testing")){
 				SyncServer a = new SyncServer();
 				// --------

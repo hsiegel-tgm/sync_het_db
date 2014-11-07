@@ -68,7 +68,7 @@ public class ChangeListenerPostgres implements Runnable {
 						String pks = rs.getString(4); 
 						String values = rs.getString(5); 
 						java.sql.Date date = rs.getDate(6); 
-						// this.createRegistry();
+
 						boolean worked = m_mapper.execute(m_nameID,id, action, table, pks, values, date);
 						
 						if(worked){

@@ -39,7 +39,6 @@ public class SyncServer implements MapperRegister {
 	 * Waits for key pressed, then unbounds.
 	 */
 	public SyncServer() {
-		De.bug("Starting Sync Server...");
 		String name = "SyncServer";
 		MapperRegister x;
 		try {
@@ -88,12 +87,11 @@ public class SyncServer implements MapperRegister {
 					ret =  mapperobj.execute(null, id, action,table,pks,values,date);
 				}
 				if (ret == false){
-					break;
+					return false;
 				}
 			}
 		}  
 		return ret;
-		//return false;
 	}
 
 	@Override

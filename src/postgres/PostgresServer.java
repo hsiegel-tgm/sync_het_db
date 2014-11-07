@@ -45,28 +45,4 @@ public class PostgresServer {
 			e.printStackTrace();
 		} 
 	}
-	
-	
-//	Mapper stub;
-//		public PostgresServer(PostgresConnection connection){
-//			this.init(connection);
-//		}
-//		
-//		public void init(PostgresConnection connection) {
-//			String name = "Postgres";
-//			
-//			try {
-//				stub = (Mapper) UnicastRemoteObject.exportObject(new PostgresMapper(connection), 0);
-//				Registry registry = LocateRegistry.createRegistry(1099);
-//				registry.bind(name, stub);
-//				De.bug("Postgres Server bound");
-//				
-//			} catch (RemoteException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (AlreadyBoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
 }
