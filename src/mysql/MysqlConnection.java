@@ -26,6 +26,7 @@ public class MysqlConnection {
 			//TODO error handling
 			System.out.println(e.getMessage());
 		}
+		De.bug("mysql connection worked");
 	}
 	
 //	/**
@@ -96,9 +97,6 @@ public class MysqlConnection {
 //	}
 	
 	
-	
-	
-	
 	public int getLoggerCount() {
 		Statement st;
 		int rows = 0;
@@ -131,7 +129,7 @@ public class MysqlConnection {
 		int ret = 0;
 		try {
 			st = (Statement) m_connection.createStatement();
-			ret = st.executeUpdate("DELETE FROM logger WHERE id="+id);
+			ret = st.executeUpdate("DELETE FROM logged WHERE id="+id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

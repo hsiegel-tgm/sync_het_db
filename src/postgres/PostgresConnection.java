@@ -3,24 +3,61 @@ package postgres;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.postgresql.ds.PGPoolingDataSource;
+import org.postgresql.*;
+
+import start.De;
+
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
+
 
 public class PostgresConnection {
 	private Connection m_connection;
 
 	public PostgresConnection(String db, String host, String user, String pw) {
+		De.bug("Made Postgres conn");
+		/*PGPoolingDataSource source = new PGPoolingDataSource();
+
 		try {
+			source.setDataSourceName("A Data Source");
+			source.setServerName("192.168.232.128");
+			source.setDatabaseName("vsdb_03");
+			source.setUser("postgres");
+			source.setPassword("hermine11");
+			source.setMaxConnections(10);
+			/*
 			//TODO change datasource !!
-			com.mysql.jdbc.jdbc2.optional.MysqlDataSource d = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
-			d.setServerName(host);
-			d.setDatabaseName(db);
-			d.setUser(user);
-			d.setPassword(pw);
-			m_connection = (Connection) d.getConnection();
+			org.postgresql.ds.PGPoolingDataSource d = new org.postgresql.ds.PGPoolingDataSource();
+			d.setServerName("192.168.232.128");
+			d.setDatabaseName("vsdb_03");
+			d.setUser("postgres");
+			d.setPassword("hermine11");  
+			//m_connection = (Connection) d.getConnection();
+			
 		} catch (Exception e) { 
 			System.out.println(e.getMessage());
 		}
+		
+		Connection conn = null;
+		try {
+		    conn = source.getConnection();
+		    // use connection
+		} catch (SQLException e) {
+		    // log error
+		} finally {
+		    if (con != null) {
+		        try { conn.close(); } catch (SQLException e) {}
+		    }
+		}*/
+//		String url = "jdbc:postgresql://localhost/test";
+//		Properties props = new Properties();
+//		props.setProperty("user","fred");
+//		props.setProperty("password","secret");
+//		props.setProperty("ssl","true");
+//		Connection conn = DriverManager.getConnection(url, props);
+//		String url = "jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true";
+//		Connection conn = DriverManager.getConnection(url);
 	}
 
 	public int getLoggerCount() {

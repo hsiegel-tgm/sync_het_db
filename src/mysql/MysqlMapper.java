@@ -12,16 +12,17 @@ import remoteInterfaces.Mapper;
 import start.De;
 
 public class MysqlMapper implements Mapper{
-	MysqlConnection m_connection;
+	private MysqlConnection m_connection;
 	
 	public MysqlMapper(MysqlConnection connection){
 		m_connection = connection;
 	}
 	
-	//TODO mapping!!
+	//TODO mapping!!!
 	//TODO m_connection must be used to execute
-	public boolean execute(int id, String action, String table, String json_primaryKeys, String json_values, Date date) throws RemoteException {
-		boolean ret = false;
+	public boolean execute(String caller,int id, String action, String table, String json_primaryKeys, String json_values, Date date) throws RemoteException {
+		De.bug("inserting into mysql db");
+		/*boolean ret = false;
 		
 		JsonReader jsonReader_keys = Json.createReader(new StringReader(json_primaryKeys));
 		JsonObject primary_keys = jsonReader_keys.readObject();
@@ -40,8 +41,8 @@ public class MysqlMapper implements Mapper{
 		}else if (table.equalsIgnoreCase("Abteilung")){
 			ret = executeAbteilung(action,primary_keys,values);
 		}
-		
-		return ret;
+		*/
+		return false; 
 	}
 	
 	public boolean executeTeilnehmer(String action, JsonObject pks, JsonObject values){

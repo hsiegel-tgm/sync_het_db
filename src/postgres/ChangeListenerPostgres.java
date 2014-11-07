@@ -23,24 +23,35 @@ import com.mysql.jdbc.Statement;
 
 public class ChangeListenerPostgres implements Runnable {
 	private PostgresConnection m_connectionobj;
-	private String QUERY = "Select * from logged";
 	private Mapper m_mapper;
+	private String m_nameID;
 	
-	public ChangeListenerPostgres(PostgresConnection connection){
+	public ChangeListenerPostgres(String nameID, PostgresConnection connection,String registryIp){
 		m_connectionobj = connection;
-		//m_connection = m_connectionobj.getConnection();
-		
-		Registry registry;
-		try {
-			registry = LocateRegistry.getRegistry("127.0.0.1",1099);
-			m_mapper = (Mapper) registry.lookup("Mysql");
-			m_mapper.execute(0,"","","","",null);
+		m_nameID = nameID;
+		try{
+			Registry registry = LocateRegistry.getRegistry(registryIp,1099);
+			m_mapper = (Mapper) registry.lookup("SyncServer");
+			// this.run();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
 	}
+	
+//	public void createRegistry(){
+//		Registry registry;
+//		try {
+//			registry = LocateRegistry.getRegistry(m_regip,1099);
+//			m_mapper = (Mapper) registry.lookup("Mysql");
+//			m_mapper.execute(0,"","","","",null);
+//		} catch (RemoteException e) {
+//			e.printStackTrace();
+//		} catch (NotBoundException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	public void run() {
 		while(true){
@@ -57,8 +68,8 @@ public class ChangeListenerPostgres implements Runnable {
 						String pks = rs.getString(4); 
 						String values = rs.getString(5); 
 						java.sql.Date date = rs.getDate(6); 
-
-						boolean worked = m_mapper.execute(id, action, table, pks, values, date);
+						// this.createRegistry();
+						boolean worked = m_mapper.execute(m_nameID,id, action, table, pks, values, date);
 						
 						if(worked){
 							m_connectionobj.delteLogger(id);							

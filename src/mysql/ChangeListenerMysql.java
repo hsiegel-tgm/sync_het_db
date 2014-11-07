@@ -25,13 +25,14 @@ import com.mysql.jdbc.Statement;
 public class ChangeListenerMysql implements Runnable {
 	private MysqlConnection m_connectionobj;
 	private Mapper m_mapper;
+	private String m_nameID;
 	
-	public ChangeListenerMysql(MysqlConnection connection){
+	public ChangeListenerMysql(String nameID, MysqlConnection connection, String registryIp){
 		m_connectionobj = connection;
-		
+		m_nameID = nameID;
 		try{
-			Registry registry = LocateRegistry.getRegistry("127.0.0.1",1099);
-			m_mapper = (Mapper) registry.lookup("Postgres");
+			Registry registry = LocateRegistry.getRegistry(registryIp,1099);
+			m_mapper = (Mapper) registry.lookup("SyncServer");
 			this.run();
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -57,7 +58,7 @@ public class ChangeListenerMysql implements Runnable {
 						String values = rs.getString(5); 
 						java.sql.Date date = rs.getDate(6); 
 
-						boolean worked = m_mapper.execute(id, action,table, pks,values,date);
+						boolean worked = m_mapper.execute(m_nameID,id, action,table, pks,values,date);
 						
 						if(worked){
 							m_connectionobj.delteLogger(id);					

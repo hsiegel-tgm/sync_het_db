@@ -18,7 +18,7 @@ public class PostgresMapper implements Mapper{
 		m_connection = connection;
 	}
 	
-	public boolean execute(int id, String action, String table, String json_primaryKeys, String json_values, Date date) throws RemoteException {
+	public boolean execute(String caller, int id, String action, String table, String json_primaryKeys, String json_values, Date date) throws RemoteException {
 		boolean ret = false;
 		
 		JsonReader jsonReader_keys = Json.createReader(new StringReader(json_primaryKeys));
@@ -65,7 +65,7 @@ public class PostgresMapper implements Mapper{
 		else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Besucher WHERE name = '"+ old_name +"' AND vname = '"+ old_vname +"' AND date = '"+ old_date +"'"; 
 		
-		De.bug(sql_string);
+		De.bug("Postgres would like to run:  "+sql_string);
 		return true;
 	} 
 	
@@ -95,7 +95,7 @@ public class PostgresMapper implements Mapper{
 		}else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Veranstaltung WHERE vname = '"+ old_vname +"' AND date = '"+ old_date +"'"; 
 		
-		De.bug(sql_string);
+		De.bug("Postgres would like to run:  "+sql_string);
 		return true;
 	} 
 
@@ -124,12 +124,12 @@ public class PostgresMapper implements Mapper{
 		}else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Person WHERE vorname = '"+ old_vorname +"' AND nachname = '"+ old_nachname +"'"; 
 		
-		De.bug(sql_string);
+		De.bug("Postgres would like to run:  "+sql_string);
 		return true;
 	} 
 	
 	public boolean executeAbteilung(String action, JsonObject pks, JsonObject values){
-		System.out.println("Abteilung can not be synchronised");
+		De.bug("Abteilung can not be synchronised");
 		return true;
 	} 
 
