@@ -52,9 +52,8 @@ public class Starter {
 			}
 			else if(db_type.equals("pgcontest")){
 				PostgresConnection connection = new PostgresConnection(db,host,user,pw);
-				connection.getLoggerCount(); //Testen
-				connection.getLoggerContent(); //Testen
-				
+				connection.getLoggerCount(); //TODO Testen
+				connection.getLoggerContent(); //TODO Testen
 			}
 			else if(db_type.equals("testing")){
 				SyncServer a = new SyncServer();
@@ -66,8 +65,10 @@ public class Starter {
 				PostgresServer srv2 = new PostgresServer("Postgres1",connection2,regip);
 				ChangeListenerMysql clm = new ChangeListenerMysql("Mysql1",connection,regip);
 				ChangeListenerPostgres clp = new ChangeListenerPostgres("Postgres1",connection2,regip);
+				//clp.run();
+				//clm.run();
 			}
-			
+		
 			else{
 				System.out.println("The usage is the following: \n <mysql|postgres|testing|syncserver> <db> <host> <user> <password> \n Please note, that the database should be set up correctly, as it can be found in our protocol. ");
 			}

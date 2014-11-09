@@ -25,33 +25,24 @@ public class ChangeListenerPostgres implements Runnable {
 	private PostgresConnection m_connectionobj;
 	private Mapper m_mapper;
 	private String m_nameID;
+	private Thread m_thread;
 	
 	public ChangeListenerPostgres(String nameID, PostgresConnection connection,String registryIp){
 		m_connectionobj = connection;
 		m_nameID = nameID;
+		
 		try{
 			Registry registry = LocateRegistry.getRegistry(registryIp,1099);
 			m_mapper = (Mapper) registry.lookup("SyncServer");
-			// this.run();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
+		m_thread = new Thread(this);
+		m_thread.setName(nameID);
+		m_thread.start();
 	}
-	
-//	public void createRegistry(){
-//		Registry registry;
-//		try {
-//			registry = LocateRegistry.getRegistry(m_regip,1099);
-//			m_mapper = (Mapper) registry.lookup("Mysql");
-//			m_mapper.execute(0,"","","","",null);
-//		} catch (RemoteException e) {
-//			e.printStackTrace();
-//		} catch (NotBoundException e) {
-//			e.printStackTrace();
-//		}
-//	}
 	
 	public void run() {
 		while(true){
@@ -69,7 +60,8 @@ public class ChangeListenerPostgres implements Runnable {
 						String values = rs.getString(5); 
 						java.sql.Date date = rs.getDate(6); 
 
-						boolean worked = m_mapper.execute(m_nameID,id, action, table, pks, values, date);
+						 boolean worked = m_mapper.execute(m_nameID,id, action, table, pks, values, date);
+						//De.bug("I am here." + m_mapper.execute(null, , action, table, pks, values, date));
 						
 						if(worked){
 							m_connectionobj.delteLogger(id);							
@@ -78,6 +70,8 @@ public class ChangeListenerPostgres implements Runnable {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (RemoteException e) {
+					De.bug(e.getMessage());
+					De.bug("------------------------");
 					e.printStackTrace();
 				} 
 			}

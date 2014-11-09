@@ -18,7 +18,7 @@ import remoteInterfaces.Mapper;
 import start.De;
 
 /**
- * The class Balancer is the implemantation of the Balancer
+ * The class SyncServer is the implementation of the SyncServer
  * 
  * @author Hannah Siegel
  * @version 2013-12-14
@@ -54,6 +54,7 @@ public class SyncServer implements MapperRegister {
 			De.bug("SyncServer bound");
 			
 			// System.out.println("Press any key to exit SyncServer!");
+			
 			// System.in.read();
 			
 			//unbinding Balancer
@@ -72,7 +73,7 @@ public class SyncServer implements MapperRegister {
 		
 		boolean ret = false;
 		
-		//TODO if they are down???
+		//TODO if they are down -- save msg???
 		//if there are any peers
 		if (m_mapperObj == null || m_mapperObj.size() == 0) {
 			De.bug("cannot execute... ");
@@ -84,6 +85,9 @@ public class SyncServer implements MapperRegister {
 				String key = entry.getKey().toString();
 				if(!(key.equals(caller))){
 					Mapper mapperobj = (Mapper) entry.getValue();
+					//De.bug("SyncServer is sending to: " + key );
+					//De.bug("SyncServer has become msg from: " + caller );
+
 					ret =  mapperobj.execute(null, id, action,table,pks,values,date);
 				}
 				if (ret == false){

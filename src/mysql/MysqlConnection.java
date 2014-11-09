@@ -4,13 +4,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import remoteInterfaces.SyncDBConnector;
 import start.De;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
-public class MysqlConnection {
+public class MysqlConnection implements SyncDBConnector {
 	private Connection m_connection;
 	
 	public MysqlConnection(String db, String host, String user, String pw){
@@ -26,76 +27,8 @@ public class MysqlConnection {
 			//TODO error handling
 			System.out.println(e.getMessage());
 		}
-		De.bug("mysql connection worked");
+		De.bug("Succesfully connected to mysql db");
 	}
-	
-//	/**
-//	 * only for debugging
-//	 * 
-//	 * @param query
-//	 */
-//	public void printExecQuery(String query){
-//		Statement st;
-//		try {
-//			st = (Statement) m_connection.createStatement();
-//			ResultSet rs = st.executeQuery(query);
-//			ResultSetMetaData x = (ResultSetMetaData) rs.getMetaData();
-//			
-//			for(int i = 1; i <= x.getColumnCount(); ++i){
-//				De.bug((x.getColumnName(i)) + " | ");
-//			}
-//			De.bug("\n ------------------- ");
-//			while (rs.next()) {
-//				for(int i = 1; i <= x.getColumnCount(); ++i){
-//					De.bug(rs.getString(x.getColumnName(i)) + " | ");
-//				}
-//				De.bug("\n ------------------- ");
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	public int countExecQuery(String query){
-//		Statement st;
-//		int rows = 0;
-//		try {
-//			st = (Statement) m_connection.createStatement();
-//			ResultSet rs = st.executeQuery(query);
-//			while (rs.next()) {
-//				rows++;
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return rows;
-//	}
-//	
-//	public ResultSet RSExecQuery(String query){
-//		
-//		Statement st;
-//		ResultSet rs=null;
-//		try {
-//			st = (Statement) m_connection.createStatement();
-//			rs = st.executeQuery(query);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return rs;
-//	}
-//	
-//	public int RSExecUpdate(String query){
-//		Statement st;
-//		int ret=0;
-//		try {
-//			st = (Statement) m_connection.createStatement();
-//			ret = st.executeUpdate(query);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return ret;
-//	}
-	
 	
 	public int getLoggerCount() {
 		Statement st;
@@ -140,9 +73,9 @@ public class MysqlConnection {
 		return m_connection;
 	}
 	
-	public boolean execCommand(String sql) {
+	public boolean execQuery(String sql) {
 		Statement st;
-		boolean ret = false;
+		boolean ret = true;
 		try {
 			st = (Statement) m_connection.createStatement();
 			st.executeQuery(sql);
@@ -150,6 +83,40 @@ public class MysqlConnection {
 			e.printStackTrace();
 			ret = false;
 		}
+		De.bug("Mysql1 Executed Query : "+sql+"\n : "+ret);
+
 		return ret;
+	}
+	
+	public boolean execUpdate(String sql) {
+		Statement st;
+		boolean ret = true;
+		try {
+			st = (Statement) m_connection.createStatement();
+			st.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ret = false;
+		}
+		De.bug("Mysql1 Executed Query : "+sql+"\n : "+ret);
+
+		return ret;
+	}
+
+	public boolean isInDB(String table, String attribute, String value) {
+		Statement st;
+		ResultSet rs = null;
+		try {
+			st = (Statement) m_connection.createStatement();
+			rs = st.executeQuery("SELECT " +attribute+" FROM "+table);
+			while(rs.next()){
+				if(rs.getString(1).equals(value)){
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

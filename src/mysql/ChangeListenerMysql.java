@@ -26,6 +26,7 @@ public class ChangeListenerMysql implements Runnable {
 	private MysqlConnection m_connectionobj;
 	private Mapper m_mapper;
 	private String m_nameID;
+	private Thread m_thread;
 	
 	public ChangeListenerMysql(String nameID, MysqlConnection connection, String registryIp){
 		m_connectionobj = connection;
@@ -33,12 +34,14 @@ public class ChangeListenerMysql implements Runnable {
 		try{
 			Registry registry = LocateRegistry.getRegistry(registryIp,1099);
 			m_mapper = (Mapper) registry.lookup("SyncServer");
-			this.run();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
+		m_thread = new Thread(this);
+		m_thread.setName(nameID);
+		m_thread.start();
 	}
 	
 	public void run() {
