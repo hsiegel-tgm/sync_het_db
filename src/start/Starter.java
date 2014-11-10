@@ -64,7 +64,7 @@ public class Starter {
 				PostgresConnection connection2 = new PostgresConnection(db,host,user,pw);
 				PostgresServer srv2 = new PostgresServer("Postgres1",connection2,regip);
 				ChangeListenerMysql clm = new ChangeListenerMysql("Mysql1",connection,regip);
-				ChangeListenerPostgres clp = new ChangeListenerPostgres("Postgres1",connection2,regip);
+				//ChangeListenerPostgres clp = new ChangeListenerPostgres("Postgres1",connection2,regip);
 				//clp.run();
 				//clm.run();
 			}

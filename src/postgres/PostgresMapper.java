@@ -109,17 +109,15 @@ public class PostgresMapper implements Mapper{
 	} 
 
 	public boolean executePerson(String action, JsonObject pks, JsonObject values){
-		String old_vorname="",old_nachname="";
-		String new_vorname="",new_nachname="",new_abteilung="",new_addresse="";
+		String old_name="";
+		String new_name="",new_abteilung="",new_addresse="";
 		
 		if (pks.size() != 0){
-			old_vorname = pks.getString("vorname");
-			old_nachname = (pks.getString("nachname"));
+			old_name = pks.getString("name");
 		}
 		
 		if (values.size() != 0){
-			new_vorname = values.getString("vorname");
-			new_nachname = values.getString("nachname");
+			new_name = values.getString("name");
 			new_abteilung = values.getString("aname");
 			new_addresse = values.getString("addresse");
 		}
@@ -127,11 +125,11 @@ public class PostgresMapper implements Mapper{
 		String sql_string="";
 		
 		if(action.equalsIgnoreCase("insert"))
-			sql_string = "INSERT INTO Mitarbeiter VALUES('"+new_vorname+" "+new_nachname+"','"+new_abteilung+"','current')";
+			sql_string = "INSERT INTO Mitarbeiter VALUES('"+new_name+"','"+new_abteilung+"','current')";
 		else if(action.equalsIgnoreCase("update"))	{
-			sql_string = "UPDATE Mitarbeiter SET sync = 'current', name = '"+ new_vorname +" "+ new_nachname+"', abteilung =  '"+ new_abteilung +"' WHERE name = '"+ old_vorname +" "+ old_nachname+"'";
+			sql_string = "UPDATE Mitarbeiter SET sync = 'current', name = '"+ new_name+"', abteilung =  '"+ new_abteilung +"' WHERE name = '"+ old_name+"'";
 		}else if(action.equalsIgnoreCase("delete"))	
-			sql_string = "DELETE FROM Mitarbeiter WHERE name = '"+ old_vorname +" "+ old_nachname +"'"; 
+			sql_string = "DELETE FROM Mitarbeiter WHERE name = '"+ old_name +"'"; 
 		
 		//TODO delete irgendwie?
 		//TODO -- '' -- evt mit einem delete state.

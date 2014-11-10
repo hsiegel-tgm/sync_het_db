@@ -4,7 +4,7 @@ USE vsdb_03;
 
 CREATE TABLE Abteilung (
  aname VARCHAR(255) NOT NULL,
-  sync_state ENUM('current', 'old', 'new','syncing') DEFAULT 'new' NOT NULL
+  sync_state ENUM('current', 'old', 'new','syncing','deleting') DEFAULT 'new' NOT NULL
 );
 
 ALTER TABLE Abteilung ADD CONSTRAINT PK_Abteilung PRIMARY KEY (aname,sync_state);
@@ -50,55 +50,54 @@ ALTER TABLE Person ADD CONSTRAINT FK_Person_0 FOREIGN KEY (aname) REFERENCES Abt
 ALTER TABLE Teilnehmer ADD CONSTRAINT FK_Teilnehmer_0 FOREIGN KEY (vorname,nachname) REFERENCES Person (vorname,nachname)  ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE Teilnehmer ADD CONSTRAINT FK_Teilnehmer_1 FOREIGN KEY (vname,date) REFERENCES Veranstaltung (vname,date) ON DELETE CASCADE ON UPDATE CASCADE;
 
-INSERT INTO Abteilung VALUES ('HR',DEFAULT);
-INSERT INTO Abteilung VALUES ('IT',DEFAULT);
-INSERT INTO Abteilung VALUES ('Facility Management',DEFAULT);
-INSERT INTO Abteilung VALUES ('Kueche',DEFAULT);
-INSERT INTO Abteilung VALUES ('Finance',DEFAULT);
-INSERT INTO Abteilung VALUES ('Managment',DEFAULT);
-INSERT INTO Abteilung VALUES ('Putzfrauenabteilung',DEFAULT);
-INSERT INTO Abteilung VALUES ('Kindergarten',DEFAULT);
-INSERT INTO Abteilung VALUES ('Sales',DEFAULT);
-INSERT INTO Abteilung VALUES ('Analysten',DEFAULT);
-INSERT INTO Abteilung VALUES ('Sportabteilung',DEFAULT);
+INSERT INTO Abteilung VALUES ('HR','current');
+INSERT INTO Abteilung VALUES ('IT','current');
+INSERT INTO Abteilung VALUES ('Facility Management','current');
+INSERT INTO Abteilung VALUES ('Kueche','current');
+INSERT INTO Abteilung VALUES ('Finance','current');
+INSERT INTO Abteilung VALUES ('Managment','current');
+INSERT INTO Abteilung VALUES ('Putzfrauenabteilung','current');
+INSERT INTO Abteilung VALUES ('Kindergarten','current');
+INSERT INTO Abteilung VALUES ('Sales','current');
+INSERT INTO Abteilung VALUES ('Analysten','current');
+INSERT INTO Abteilung VALUES ('Sportabteilung','current');
 
 
-INSERT INTO Person VALUES ('Hannah','Siegel','HR','Max Kahrer gasse',DEFAULT);
-INSERT INTO Person VALUES ('Nikolaus','Schrack','Analysten','Max Ernst gasse',DEFAULT);
-INSERT INTO Person VALUES ('Paul','Adeyemi','Sportabteilung','Max Posch gasse',DEFAULT);
-INSERT INTO Person VALUES ('Wolfram','Soyka','Finance','Max Lehrer gasse',DEFAULT);
-INSERT INTO Person VALUES ('Jakob','Saxinger','Kueche','Max Soundso gasse',DEFAULT);
-INSERT INTO Person VALUES ('Philip','Schwarzkopf','Sales','Jaegergasse',DEFAULT);
-INSERT INTO Person VALUES ('Elias','Frantar','Kindergarten','Heiligenstadt gasse',DEFAULT);
-INSERT INTO Person VALUES ('Gary','Ye','Putzfrauenabteilung','Einfache gasse',DEFAULT);
-INSERT INTO Person VALUES ('Aly','Ahmed','Facility Management','Doppelte gasse',DEFAULT);
-INSERT INTO Person VALUES ('Martin','Haidn','Managment','Gruene gasse',DEFAULT);
-INSERT INTO Person VALUES ('Dominik','Scholz','IT','Schwarze gasse',DEFAULT);
+INSERT INTO Person VALUES ('Hannah','Siegel','HR','Max Kahrer gasse','current');
+INSERT INTO Person VALUES ('Nikolaus','Schrack','Analysten','Max Ernst gasse','current');
+INSERT INTO Person VALUES ('Paul','Adeyemi','Sportabteilung','Max Posch gasse','current');
+INSERT INTO Person VALUES ('Wolfram','Soyka','Finance','Max Lehrer gasse','current');
+INSERT INTO Person VALUES ('Jakob','Saxinger','Kueche','Max Soundso gasse','current');
+INSERT INTO Person VALUES ('Philip','Schwarzkopf','Sales','Jaegergasse','current');
+INSERT INTO Person VALUES ('Elias','Frantar','Kindergarten','Heiligenstadt gasse','current');
+INSERT INTO Person VALUES ('Gary','Ye','Putzfrauenabteilung','Einfache gasse','current');
+INSERT INTO Person VALUES ('Aly','Ahmed','Facility Management','Doppelte gasse','current');
+INSERT INTO Person VALUES ('Martin','Haidn','Managment','Gruene gasse','current');
+INSERT INTO Person VALUES ('Dominik','Scholz','IT','Schwarze gasse','current');
 
- INSERT INTO Veranstaltung VALUES ('Halloween party','2014-10-31',0,10,DEFAULT);
- INSERT INTO Veranstaltung VALUES ('PPM Vortrag','2014-11-07',1,0,DEFAULT);
- INSERT INTO Veranstaltung VALUES ('Herbstwanderung','2014-11-11',0,5,DEFAULT);
- INSERT INTO Veranstaltung VALUES ('Party1','2015-01-04',0,10,DEFAULT);
- INSERT INTO Veranstaltung VALUES ('Party2','2014-10-27',0,10,DEFAULT);
- INSERT INTO Veranstaltung VALUES ('ABC Konferenz','2014-10-31',1,50,DEFAULT);
- INSERT INTO Veranstaltung VALUES ('CCC','2015-10-31',1,0,DEFAULT);
- INSERT INTO Veranstaltung VALUES ('Weihnachtsfeier','2014-12-23',0,0,DEFAULT);
- INSERT INTO Veranstaltung VALUES ('Party3','2014-10-31',0,25,DEFAULT);
- INSERT INTO Veranstaltung VALUES ('Vortrag Wichtig','2014-12-13',1,0,DEFAULT);
- INSERT INTO Veranstaltung VALUES ('Vortrag zach','2014-11-18',0,20,DEFAULT);
+ INSERT INTO Veranstaltung VALUES ('Halloween party','2014-10-31',0,10,'current');
+ INSERT INTO Veranstaltung VALUES ('PPM Vortrag','2014-11-07',1,0,'current');
+ INSERT INTO Veranstaltung VALUES ('Herbstwanderung','2014-11-11',0,5,'current');
+ INSERT INTO Veranstaltung VALUES ('Party1','2015-01-04',0,10,'current');
+ INSERT INTO Veranstaltung VALUES ('Party2','2014-10-27',0,10,'current');
+ INSERT INTO Veranstaltung VALUES ('ABC Konferenz','2014-10-31',1,50,'current');
+ INSERT INTO Veranstaltung VALUES ('CCC','2015-10-31',1,0,'current');
+ INSERT INTO Veranstaltung VALUES ('Weihnachtsfeier','2014-12-23',0,0,'current');
+ INSERT INTO Veranstaltung VALUES ('Party3','2014-10-31',0,25,'current');
+ INSERT INTO Veranstaltung VALUES ('Vortrag Wichtig','2014-12-13',1,0,'current');
+ INSERT INTO Veranstaltung VALUES ('Vortrag zach','2014-11-18',0,20,'current');
 
-INSERT INTO Teilnehmer VALUES ('Martin','Haidn','PPM Vortrag','2014-11-07',DEFAULT);
-INSERT INTO Teilnehmer VALUES ('Hannah','Siegel','PPM Vortrag','2014-11-07',DEFAULT);
-INSERT INTO Teilnehmer VALUES ('Paul','Adeyemi','Party1','2015-01-04',DEFAULT);
-INSERT INTO Teilnehmer VALUES ('Wolfram','Soyka','Vortrag Wichtig','2014-12-13',DEFAULT);
-INSERT INTO Teilnehmer VALUES ('Jakob','Saxinger','Vortrag zach','2014-11-18',DEFAULT);
-INSERT INTO Teilnehmer VALUES ('Philip','Schwarzkopf','Herbstwanderung','2014-11-11',DEFAULT);
-INSERT INTO Teilnehmer VALUES ('Elias','Frantar','CCC','2015-10-31',DEFAULT);
-INSERT INTO Teilnehmer VALUES ('Gary','Ye','Weihnachtsfeier','2014-12-23',DEFAULT);
-INSERT INTO Teilnehmer VALUES ('Aly','Ahmed','Weihnachtsfeier','2014-12-23',DEFAULT);
-INSERT INTO Teilnehmer VALUES ('Martin','Haidn','Weihnachtsfeier','2014-12-23',DEFAULT);
-INSERT INTO Teilnehmer VALUES ('Dominik','Scholz','Weihnachtsfeier','2014-12-23',DEFAULT);
-
+INSERT INTO Teilnehmer VALUES ('Martin','Haidn','PPM Vortrag','2014-11-07','current');
+INSERT INTO Teilnehmer VALUES ('Hannah','Siegel','PPM Vortrag','2014-11-07','current');
+INSERT INTO Teilnehmer VALUES ('Paul','Adeyemi','Party1','2015-01-04','current');
+INSERT INTO Teilnehmer VALUES ('Wolfram','Soyka','Vortrag Wichtig','2014-12-13','current');
+INSERT INTO Teilnehmer VALUES ('Jakob','Saxinger','Vortrag zach','2014-11-18','current');
+INSERT INTO Teilnehmer VALUES ('Philip','Schwarzkopf','Herbstwanderung','2014-11-11','current');
+INSERT INTO Teilnehmer VALUES ('Elias','Frantar','CCC','2015-10-31','current');
+INSERT INTO Teilnehmer VALUES ('Gary','Ye','Weihnachtsfeier','2014-12-23','current');
+INSERT INTO Teilnehmer VALUES ('Aly','Ahmed','Weihnachtsfeier','2014-12-23','current');
+INSERT INTO Teilnehmer VALUES ('Martin','Haidn','Weihnachtsfeier','2014-12-23','current');
+INSERT INTO Teilnehmer VALUES ('Dominik','Scholz','Weihnachtsfeier','2014-12-23','current');
 
 
 CREATE TABLE Logged (
@@ -108,7 +107,7 @@ CREATE TABLE Logged (
  old_values VARCHAR(255) NOT NULL,
  new_values VARCHAR(500),
  date_done TIMESTAMP
-);
+) ENGINE=MYISAM;
 
 -- insert teilnehmer
 delimiter //
@@ -125,8 +124,12 @@ delimiter ;
 delimiter //
 CREATE TRIGGER updateteilnehmer AFTER UPDATE ON Teilnehmer FOR EACH ROW
 BEGIN
+	declare msg varchar(255);
+
 	IF NEW.sync_state = 'new' THEN
 		INSERT INTO Logged(action,tableName,old_values,new_values,date_done) VALUES ('update','Teilnehmer',CONCAT('{"vorname":"',OLD.vorname,'","nachname":"',OLD.nachname,'","vname":"',OLD.vname,'","date":"',OLD.date,'"}'),CONCAT('{"vorname":"',NEW.vorname,'","nachname":"',NEW.nachname,'","vname":"',NEW.vname,'","date":"',NEW.date,'"}'),NOW());
+		set msg = 'Your update has been staged and sent to the syncserver';
+        signal sqlstate '45000' set message_text = msg;		
 	END IF;
 END;//
 delimiter ;
@@ -158,9 +161,12 @@ delimiter ;
 delimiter //
 CREATE TRIGGER updateveranstaltung AFTER UPDATE ON Veranstaltung FOR EACH ROW
 BEGIN
-	
+		    declare msg varchar(255);
+
 	IF NEW.sync_state = 'new' THEN
 		INSERT INTO Logged(action,tableName,old_values,new_values,date_done) VALUES ('update','Veranstaltung',CONCAT('{"vname":"',OLD.vname,'","date":"',OLD.date,'","verpflichtend":',OLD.verpflichtend,',"kosten":',OLD.kosten,'}'),CONCAT('{"vname":"',NEW.vname,'","date":"',NEW.date,'","verpflichtend":',NEW.verpflichtend,',"kosten":',NEW.kosten,'}'),NOW());
+		set msg = 'Your update has been staged and sent to the syncserver';
+        signal sqlstate '45000' set message_text = msg;		
 	END IF;
 
 END;//
@@ -189,14 +195,27 @@ BEGIN
 END;//
 delimiter ;
 
--- update Veranstaltung
+
+
+-- update Person
 delimiter //
 CREATE TRIGGER updateperson AFTER UPDATE ON Person FOR EACH ROW
 BEGIN
+    declare msg varchar(255);
+
 	IF NEW.sync_state = 'new' THEN
-		INSERT INTO Logged(action,tableName,old_values,new_values,date_done) VALUES ('update','Person',CONCAT('{"vorname":"',OLD.vorname,'","nachname":"',OLD.nachname,'"}'),CONCAT('{"vorname":"',NEW.vorname,'","nachname":"',NEW.nachname,'","aname":"',NEW.aname,'","addresse":"',NEW.addresse,'"}'),NOW());
+		INSERT INTO Logged(action,tableName,old_values,new_values,date_done) VALUES ('update','Person',CONCAT('{"name":"',OLD.vorname,' ',OLD.nachname,'","aname":"',OLD.aname,'","addresse":"',OLD.addresse,'"}'),CONCAT('{"name":"',NEW.vorname,' ',NEW.nachname,'","aname":"',NEW.aname,'","addresse":"',NEW.addresse,'"}'),NOW());
+	  set msg = 'Your update has been staged and sent to the syncserver';
+        signal sqlstate '45000' set message_text = msg;		
 	END IF;
 END;//
+delimiter ;
+
+delimiter //
+CREATE PROCEDURE test (IN oldvorname VARCHAR(255), IN oldnachname VARCHAR(255),IN oldaname VARCHAR(255),IN oldaddresse VARCHAR(255), IN newvorname VARCHAR(255), IN newnachname VARCHAR(255))
+BEGIN
+	UPDATE Person SET sync_state='current', vorname = oldvorname, nachname = oldnachname, aname = oldaname, addresse=oldaddresse WHERE vorname = newvorname AND nachname = newnachname;
+END//
 delimiter ;
 
 -- delete Veranstaltung
@@ -227,10 +246,13 @@ delimiter ;
 delimiter //
 CREATE TRIGGER updateabteilung AFTER UPDATE ON Abteilung FOR EACH ROW
 BEGIN
+    declare msg varchar(255);
+
 	IF NEW.sync_state = 'new' THEN
 		INSERT INTO Logged(action,tableName,old_values,new_values,date_done) VALUES ('update','Abteilung',CONCAT('{"aname":"',OLD.aname,'"}'),CONCAT('{"aname":"',OLD.aname,'"}'),NOW());
 	END IF;
-
+	set msg = 'Your update has been staged and sent to the syncserver';
+    signal sqlstate '45000' set message_text = msg;		
 END;//
 delimiter ;
 

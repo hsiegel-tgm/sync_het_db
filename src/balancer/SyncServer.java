@@ -28,8 +28,6 @@ public class SyncServer implements MapperRegister {
 
 	private static final long serialVersionUID = 1L;
 
-	// Vector<Mapper> m_MapperObjects = new Vector<Mapper>();
-	
 	HashMap<String,Mapper> m_mapperObj = new HashMap<String,Mapper>();
 	
 	/**
@@ -83,12 +81,26 @@ public class SyncServer implements MapperRegister {
 			//TODO test if the 'false' thing works
 			 for (Entry entry : m_mapperObj.entrySet()) {
 				String key = entry.getKey().toString();
-				if(!(key.equals(caller))){
+				if(action.equals("update")){
 					Mapper mapperobj = (Mapper) entry.getValue();
-					//De.bug("SyncServer is sending to: " + key );
-					//De.bug("SyncServer has become msg from: " + caller );
-
+					De.bug("sync server sending update: to "+key);
 					ret =  mapperobj.execute(null, id, action,table,pks,values,date);
+					if(ret == false){
+						//somebody encountered a problem
+						//revert the update (delte any syncing?)
+						 for (Entry entry2 : m_mapperObj.entrySet()) {
+								Mapper mapperobj2 = (Mapper) entry.getValue();
+								mapperobj2.revertUpdate(id);
+								//TODO ----------------------------------
+						 }
+					}
+					
+				}else{
+					if(!(key.equals(caller))){
+						Mapper mapperobj = (Mapper) entry.getValue();
+						De.bug("sync server sending insert or delete: to "+key);
+						ret =  mapperobj.execute(null, id, action,table,pks,values,date);
+					}
 				}
 				if (ret == false){
 					return false;

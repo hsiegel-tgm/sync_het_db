@@ -3,6 +3,7 @@ package mysql;
 import java.io.StringReader;
 import java.rmi.RemoteException;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -13,6 +14,7 @@ import start.De;
 
 public class MysqlMapper implements Mapper{
 	private MysqlConnection m_connection;
+	HashMap<Integer,DBUpdate> m_updates = new HashMap<Integer,DBUpdate>();
 	
 	public MysqlMapper(MysqlConnection connection){
 		m_connection = connection;
@@ -91,10 +93,15 @@ public class MysqlMapper implements Mapper{
 		
 		if(action.equalsIgnoreCase("insert"))
 			sql_string = "INSERT INTO Teilnehmer VALUES('"+new_vorname+"','"+new_nachname+"','"+new_vname+"','"+new_date+"','current')";
-		else if(action.equalsIgnoreCase("update"))	
+		else if(action.equalsIgnoreCase("update"))
 			sql_string = "UPDATE Teilnehmer SET sync_state = 'current', vorname = '"+ new_vorname +"', nachname = '" +new_nachname+"' , vname =  '"+ new_vname +"', date =  '"+ new_date +"' WHERE vorname = '"+ old_vorname +"' AND nachname = '"+old_nachname+"' AND vname = '"+ old_vname +"' AND date = '"+ old_date +"' ";
 		else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Teilnehmer WHERE vorname = '"+ old_vorname +"' AND nachname = '"+old_nachname+ "' AND vname = '"+ old_vname +"' AND date = '"+ old_date +"'"; 
+		
+		if(action.equalsIgnoreCase("update")){
+			String old_sql_string = "INSERT INTO Teilnehmer VALUES('"+old_vorname+"','"+old_nachname+"','"+old_vname+"','"+old_date+"','old')";
+			m_connection.execUpdate(old_sql_string);
+		}
 		
 		De.bug(sql_string);
 		return m_connection.execUpdate(sql_string);
@@ -103,13 +110,16 @@ public class MysqlMapper implements Mapper{
 	public boolean executeVeranstaltung(String action, JsonObject pks, JsonObject values){
 		String old_vname="",old_date="";
 		
-		boolean new_verpflichtend=false;
+		boolean new_verpflichtend=false,old_verpflichtend=false;
 		String new_vname="",new_date="";
-		int new_kosten=0;
+		int new_kosten=0, old_kosten=0;
 		
 		if (pks.size() != 0){
 			 old_vname = pks.getString("vname");
 			 old_date = (pks.getString("date"));
+			 old_verpflichtend = pks.getBoolean("verpflichtend");
+			old_kosten = values.getInt("kosten");
+
 		}
 		
 		if (values.size() != 0){
@@ -123,23 +133,34 @@ public class MysqlMapper implements Mapper{
 		if(action.equalsIgnoreCase("insert"))
 			sql_string = "INSERT INTO Veranstaltung VALUES('"+new_vname+"','"+new_date+"',"+new_verpflichtend+","+new_kosten+",'current')";
 		else if(action.equalsIgnoreCase("update"))	{
-			sql_string = "UPDATE Veranstaltung SET sync_state = 'current', vname = '"+ new_vname +"', kosten = "+ new_kosten +", date = '"+ new_date +"', verpflichtend =  "+ new_verpflichtend +" WHERE vname = '"+ old_vname +"' AND date = '"+ old_date +"'";
+			sql_string = "UPDATE Veranstaltung SET sync_state = 'current', vname = '"+ new_vname +"', kosten = "+ new_kosten +", date = '"+ new_date +"', verpflichtend =  "+ new_verpflichtend +" WHERE vname = '"+ old_vname +"' AND date = '"+ old_date +"' AND sync_state='current'";
 		}else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Veranstaltung WHERE vname = '"+ old_vname +"' AND date = '"+ old_date +"'"; 
+		
+		if(action.equalsIgnoreCase("update")){
+			String old_sql_string = "INSERT INTO Veranstaltung VALUES('"+old_vname+"','"+old_date+"','"+old_verpflichtend+"','"+old_kosten+"','old')";
+			m_connection.execUpdate(old_sql_string);
+		}
 		
 		De.bug(sql_string);
 		return m_connection.execUpdate(sql_string);
 	} 
 
 	public boolean executePerson(String action, JsonObject pks, JsonObject values){
-		String old_vorname="",old_nachname="";
+		String old_vorname="",old_nachname="",old_abteilung="",old_addresse="";
 		String new_vorname="",new_nachname="",new_abteilung="",new_addresse="";
 		
 		if (pks.size() != 0){
-			String name = pks.getString("name");
-			String[] splited = processName(name);
-			old_nachname = splited[0];
-			old_vorname = splited[1];			
+			try{
+				String name = pks.getString("name");
+				String[] splited = processName(name);
+				old_nachname = splited[0];
+				old_vorname = splited[1];	
+				old_abteilung =  pks.getString("aname");
+				old_addresse = pks.getString("addresse");
+			}catch(Exception e){
+				System.out.println("hier:"+pks.toString());
+			}
 		}
 		
 		if (values.size() != 0){
@@ -152,7 +173,7 @@ public class MysqlMapper implements Mapper{
 				new_abteilung = values.getString("aname");
 				new_addresse = values.getString("addresse");
 			}catch(java.lang.NullPointerException npe){
-				De.bug("np-ex:");
+				System.out.println("hier:"+values.toString());
 				De.bug(splited.toString());
 				//TODO
 			}
@@ -165,13 +186,20 @@ public class MysqlMapper implements Mapper{
 		
 		String sql_string="";
 		
-		//TODO achtung da is das current schon dabei!!!
 		if(action.equalsIgnoreCase("insert"))
 			sql_string = "INSERT INTO Person VALUES('"+new_vorname+"','"+new_nachname+"','"+new_abteilung+"','"+new_addresse+"','current')";
 		else if(action.equalsIgnoreCase("update"))	{
-			sql_string = "UPDATE Person SET sync_state = 'current', vorname = '"+ new_vorname +"', nachname = '"+ new_nachname +"', aname =  '"+ new_abteilung +"', addresse =  '"+ new_addresse +"' WHERE vorname = '"+ old_vorname +"' AND nachname = '"+ old_nachname+"')";
+			sql_string = "UPDATE Person SET sync_state = 'syncing', vorname = '"+ new_vorname +"', nachname = '"+ new_nachname +"', aname =  '"+ new_abteilung +"', addresse =  '"+ new_addresse +"' WHERE vorname = '"+ old_vorname +"' AND nachname = '"+ old_nachname+"' AND sync_state='current'";
 		}else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Person WHERE vorname = '"+ old_vorname +"' AND nachname = '"+ old_nachname +"'"; 
+		
+		
+		if(action.equalsIgnoreCase("update")){
+			String old_sql_string = "INSERT INTO Person VALUES('"+old_vorname+"','"+old_nachname+"','"+old_abteilung+"','"+old_addresse+"','old')";
+			m_connection.execUpdate(old_sql_string);
+			m_updates.put(4, new DBUpdate("Person", "vorname ='"+old_vorname+"' AND nachname= '"+old_nachname+"'", "vorname ='"+new_vorname+"' AND nachname= '"+new_nachname+"'"));
+
+		}
 		
 		De.bug(sql_string);
 		return m_connection.execUpdate(sql_string);
@@ -201,4 +229,17 @@ public class MysqlMapper implements Mapper{
 		De.bug(sql_string);
 		return m_connection.execUpdate(sql_string);
 	} 
+	
+	
+
+	
+	public boolean revertUpdate(int id){
+		String sql = m_updates.get(id).revertUpdate();
+		return m_connection.execUpdate(sql);
+	}
+	
+	public boolean approveUpdate(int id){
+		String sql = m_updates.get(id).approveUpdate();
+		return m_connection.execUpdate(sql);
+	}
 }

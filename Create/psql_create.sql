@@ -3,7 +3,7 @@ DROP DATABASE vsdb_03;
 CREATE DATABASE vsdb_03;
 \c vsdb_03
 
-CREATE TYPE sync_type AS ENUM ('current' , 'old' , 'new' , 'syncing');
+CREATE TYPE sync_type AS ENUM ('current' , 'old' , 'new' , 'syncing','deleting');
 
 
 CREATE TABLE Mitarbeiter (
@@ -121,11 +121,12 @@ CREATE OR REPLACE FUNCTION update_Mitarbeiter() RETURNS TRIGGER AS $mitarbeiter2
 			INSERT INTO Logged(id,action,tableName,old_values,new_values,date_done) VALUES (DEFAULT,'update','Person','{"name":"'||OLD.name||'","addresse":"","aname":"'||OLD.abteilung||'"}','{"name":"'||NEW.name||'","addresse":"","abteilung":"'||NEW.abteilung||'"}',current_timestamp);
 		END IF;
        
-	   RETURN NEW;
+	   RETURN NULL;
+	   -- RETURN NEW;
     END;
 $mitarbeiter2$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_Mitarbeiter_trigger AFTER UPDATE ON Mitarbeiter
+CREATE TRIGGER update_Mitarbeiter_trigger BEFORE UPDATE ON Mitarbeiter
 FOR EACH ROW EXECUTE PROCEDURE update_Mitarbeiter();
 
 
@@ -177,11 +178,11 @@ CREATE OR REPLACE FUNCTION update_Veranstaltung() RETURNS TRIGGER AS $veranstalt
 			INSERT INTO Logged(id,action,tableName,old_values,new_values,date_done) VALUES (DEFAULT,'update','Veranstaltung','{"vname":"'||OLD.vname||'","date":"'||OLD.date||'","verpflichtend":'||OLD.verpflichtend||',"kosten":'||OLD.kosten||'}','{"vname":"'||NEW.vname||'","date":"'||NEW.date||'","verpflichtend":'||NEW.verpflichtend||',"kosten":'||NEW.kosten||'}' ,current_timestamp);
         END IF;
 
-		RETURN NEW;
+		RETURN NULL;
     END;
 $veranstaltung2$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_Veranstaltung_trigger AFTER UPDATE ON Veranstaltung
+CREATE TRIGGER update_Veranstaltung_trigger BEFORE UPDATE ON Veranstaltung
 FOR EACH ROW EXECUTE PROCEDURE update_Veranstaltung();
 
 
@@ -234,11 +235,11 @@ CREATE OR REPLACE FUNCTION update_Besucher() RETURNS TRIGGER AS $besucher2$
 			INSERT INTO Logged(id,action,tableName,old_values,new_values,date_done) VALUES (DEFAULT,'update','Teilnehmer','{"vname":"'||OLD.vname||'","date":"'||OLD.date||'","name":"'||OLD.name||'"}','{"vname":"'||NEW.vname||'","date":"'||NEW.date||'","name":"'||NEW.name||'"}' ,current_timestamp);
         END IF;
 
-		RETURN NEW;
+		RETURN NULL;
     END;
 $besucher2$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_Besucher_trigger AFTER UPDATE ON Besucher
+CREATE TRIGGER update_Besucher_trigger BEFORE UPDATE ON Besucher
 FOR EACH ROW EXECUTE PROCEDURE update_Besucher();
 
 
