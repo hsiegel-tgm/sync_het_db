@@ -1,27 +1,19 @@
 package start;
 
-import balancer.SyncServer;
 import postgres.ChangeListenerPostgres;
 import postgres.PostgresConnection;
 import postgres.PostgresServer;
+import syncserver.SyncServer;
 import mysql.ChangeListenerMysql;
 import mysql.MysqlConnection;
 import mysql.MysqlServer;
 
 public class Starter {
 	public static void main(String arg[]){
-		//try {
-		//	Runtime.getRuntime().exec("rmiregistry");
-		//	Runtime.getRuntime().exec("rmid -J-Djava.security.policy=rmid.policy");
-		//}
-		//catch (java.io.IOException e) {}
-
-		//TODO: start rmireg :1099
-		//TODO: Stop the vm networks
 		
 		//I used:  mysql vsdb_03 localhost usr_vsdb03 pw_vsdb03
-		if(arg.length < 5){
-			System.out.println("The usage is the following: \n <mysql|postgres> <db> <host> <user> <password> <registry-ip> \n Please note, that the database should be set up correctly, as it can be found in our protocol. ");
+		if(arg.length < 6){
+			System.out.println("The usage is the following: \n <mysql|postgres> <db> <host> <user> <password> <syncserver-ip> \n Please note, that the database should be set up correctly, as it can be found in our protocol. ");
 		}
 		else{
 			String policy = "grant{permission java.security.AllPermission;};";
@@ -37,38 +29,32 @@ public class Starter {
 			
 			if(db_type.equals("mysql")){
 				String name = "Mysql1";
-				MysqlConnection connection = new MysqlConnection(db,host,user,pw);
+				MysqlConnection connection = new MysqlConnection(db,host,user,pw,"Mysql1");
 				MysqlServer srv = new MysqlServer(name,connection, regip);
 				ChangeListenerMysql clm = new ChangeListenerMysql(name,connection,regip);
 			}
 			else if(db_type.equals("postgres")){
 				String name = "Postgres1";
-				PostgresConnection connection = new PostgresConnection(db,host,user,pw);
+				PostgresConnection connection = new PostgresConnection(db,host,user,pw,"Postgres1");
 				PostgresServer srv = new PostgresServer(name,connection,regip);
 				ChangeListenerPostgres clp = new ChangeListenerPostgres(name,connection,regip);
 			}
 			else if(db_type.equals("syncserver")){
 				SyncServer a = new SyncServer();
 			}
-			else if(db_type.equals("pgcontest")){
-				PostgresConnection connection = new PostgresConnection(db,host,user,pw);
-				connection.getLoggerCount(); //TODO Testen
-				connection.getLoggerContent(); //TODO Testen
-			}
 			else if(db_type.equals("testing")){
 				SyncServer a = new SyncServer();
 				// --------
-				MysqlConnection connection = new MysqlConnection(db,host,user,pw);
+				MysqlConnection connection = new MysqlConnection(db,host,user,pw,"Mysql1");
 				MysqlServer srv = new MysqlServer("Mysql1",connection, regip);
 				// --------
-				PostgresConnection connection2 = new PostgresConnection(db,host,user,pw);
+				PostgresConnection connection2 = new PostgresConnection(db,host,user,pw,"Postgres1");
 				PostgresServer srv2 = new PostgresServer("Postgres1",connection2,regip);
+				// --------
 				ChangeListenerMysql clm = new ChangeListenerMysql("Mysql1",connection,regip);
-				//ChangeListenerPostgres clp = new ChangeListenerPostgres("Postgres1",connection2,regip);
-				//clp.run();
-				//clm.run();
+				ChangeListenerPostgres clp = new ChangeListenerPostgres("Postgres1",connection2,regip);
 			}
-		
+			//TODO new auf yes aendern!
 			else{
 				System.out.println("The usage is the following: \n <mysql|postgres|testing|syncserver> <db> <host> <user> <password> \n Please note, that the database should be set up correctly, as it can be found in our protocol. ");
 			}

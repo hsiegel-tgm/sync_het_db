@@ -32,16 +32,11 @@ public class MysqlMapper implements Mapper{
 		
 		if(table.equalsIgnoreCase("Teilnehmer")){
 			ret = executeTeilnehmer(action, json_old_values, json_new_values);
-		}
-		
-		else if (table.equalsIgnoreCase("Veranstaltung")){
+		}else if (table.equalsIgnoreCase("Veranstaltung")){
 			ret = executeVeranstaltung(action,json_old_values,json_new_values);
-		}
-		
-		else if (table.equalsIgnoreCase("Person")){
+		}else if (table.equalsIgnoreCase("Person")){
 			ret = executePerson(action,json_old_values,json_new_values);
-		}
-		else if (table.equalsIgnoreCase("Abteilung")){
+		}else if (table.equalsIgnoreCase("Abteilung")){
 			ret = executeAbteilung(action,json_old_values,json_new_values);
 		}
 
@@ -98,54 +93,74 @@ public class MysqlMapper implements Mapper{
 		else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Teilnehmer WHERE vorname = '"+ old_vorname +"' AND nachname = '"+old_nachname+ "' AND vname = '"+ old_vname +"' AND date = '"+ old_date +"'"; 
 		
-		if(action.equalsIgnoreCase("update")){
-			String old_sql_string = "INSERT INTO Teilnehmer VALUES('"+old_vorname+"','"+old_nachname+"','"+old_vname+"','"+old_date+"','old')";
-			m_connection.execUpdate(old_sql_string);
-		}
+	//	if(action.equalsIgnoreCase("update")){
+	//		String old_sql_string = "INSERT INTO Teilnehmer VALUES('"+old_vorname+"','"+old_nachname+"','"+old_vname+"','"+old_date+"','old')";
+	//		m_connection.execUpdate(old_sql_string);
+	//	}
 		
-		De.bug(sql_string);
 		return m_connection.execUpdate(sql_string);
 	} 
 	
 	public boolean executeVeranstaltung(String action, JsonObject pks, JsonObject values){
 		String old_vname="",old_date="";
 		
-		boolean new_verpflichtend=false,old_verpflichtend=false;
+		int new_verpflichtend=0,old_verpflichtend=0;
 		String new_vname="",new_date="";
 		int new_kosten=0, old_kosten=0;
 		
 		if (pks.size() != 0){
 			 old_vname = pks.getString("vname");
 			 old_date = (pks.getString("date"));
-			 old_verpflichtend = pks.getBoolean("verpflichtend");
-			old_kosten = values.getInt("kosten");
+			 //old_verpflichtend = convert_to_mysql_boolean(pks,"verpflichtend");
+			 //old_kosten = values.getInt("kosten");
 
 		}
 		
 		if (values.size() != 0){
-			new_verpflichtend = values.getBoolean("verpflichtend");
+			new_verpflichtend =	convert_to_mysql_boolean(values, "verpflichtend");
+			De.bug("mysql bool:"+new_verpflichtend);
 			new_kosten = values.getInt("kosten");
 			new_vname = values.getString("vname");
 			new_date = (values.getString("date"));
 		}
 		String sql_string="";
 		
+		//sql_string = "INSERT INTO Veranstaltung VALUES('"+new_vname+"',DATE_FORMAT("+new_date+", '%Y %d %m'),"+new_verpflichtend+","+new_kosten+",'current')";
+
+		
 		if(action.equalsIgnoreCase("insert"))
 			sql_string = "INSERT INTO Veranstaltung VALUES('"+new_vname+"','"+new_date+"',"+new_verpflichtend+","+new_kosten+",'current')";
 		else if(action.equalsIgnoreCase("update"))	{
-			sql_string = "UPDATE Veranstaltung SET sync_state = 'current', vname = '"+ new_vname +"', kosten = "+ new_kosten +", date = '"+ new_date +"', verpflichtend =  "+ new_verpflichtend +" WHERE vname = '"+ old_vname +"' AND date = '"+ old_date +"' AND sync_state='current'";
+			sql_string = "UPDATE Veranstaltung SET sync_state = 'current', vname = '"+ new_vname +"', kosten = "+ new_kosten +", date = '"+ new_date +"', verpflichtend =  "+ new_verpflichtend +" WHERE vname = '"+ old_vname +"' AND date = '"+ old_date +"'";// AND sync_state='current'";
 		}else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Veranstaltung WHERE vname = '"+ old_vname +"' AND date = '"+ old_date +"'"; 
 		
-		if(action.equalsIgnoreCase("update")){
-			String old_sql_string = "INSERT INTO Veranstaltung VALUES('"+old_vname+"','"+old_date+"','"+old_verpflichtend+"','"+old_kosten+"','old')";
-			m_connection.execUpdate(old_sql_string);
-		}
+//		if(action.equalsIgnoreCase("update")){
+//			String old_sql_string = "INSERT INTO Veranstaltung VALUES('"+old_vname+"','"+old_date+"','"+old_verpflichtend+"','"+old_kosten+"','old')";
+//			m_connection.execUpdate(old_sql_string);
+//		}
 		
-		De.bug(sql_string);
 		return m_connection.execUpdate(sql_string);
 	} 
 
+	public int convert_to_mysql_boolean(JsonObject values, String name){
+		boolean bool;
+		try{
+			bool = values.getBoolean(name);
+			if(bool == true)
+				return 1;
+			else
+				return 0;
+		}catch(Exception e){
+			try{
+				return values.getInt(name);
+			}
+			catch(Exception e2){
+				return 0;
+			}
+		}
+	}
+	
 	public boolean executePerson(String action, JsonObject pks, JsonObject values){
 		String old_vorname="",old_nachname="",old_abteilung="",old_addresse="";
 		String new_vorname="",new_nachname="",new_abteilung="",new_addresse="";
@@ -179,7 +194,7 @@ public class MysqlMapper implements Mapper{
 			}
 		}
 		
-		if(!(m_connection.isInDB("Abteilung", "aname" , new_abteilung))){
+		if(!(m_connection.isInDB("Abteilung", "aname" , new_abteilung)) && !action.equals("delete")){
 			m_connection.execUpdate("INSERT INTO Abteilung VALUES ('"+new_abteilung+"','current')");
 		}
 		
@@ -189,19 +204,18 @@ public class MysqlMapper implements Mapper{
 		if(action.equalsIgnoreCase("insert"))
 			sql_string = "INSERT INTO Person VALUES('"+new_vorname+"','"+new_nachname+"','"+new_abteilung+"','"+new_addresse+"','current')";
 		else if(action.equalsIgnoreCase("update"))	{
-			sql_string = "UPDATE Person SET sync_state = 'syncing', vorname = '"+ new_vorname +"', nachname = '"+ new_nachname +"', aname =  '"+ new_abteilung +"', addresse =  '"+ new_addresse +"' WHERE vorname = '"+ old_vorname +"' AND nachname = '"+ old_nachname+"' AND sync_state='current'";
+			sql_string = "UPDATE Person SET sync_state = 'syncing', vorname = '"+ new_vorname +"', nachname = '"+ new_nachname +"', aname =  '"+ new_abteilung +"', addresse =  '"+ new_addresse +"' WHERE vorname = '"+ old_vorname +"' AND nachname = '"+ old_nachname+"'"; //AND sync_state='current'";
 		}else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Person WHERE vorname = '"+ old_vorname +"' AND nachname = '"+ old_nachname +"'"; 
 		
 		
-		if(action.equalsIgnoreCase("update")){
-			String old_sql_string = "INSERT INTO Person VALUES('"+old_vorname+"','"+old_nachname+"','"+old_abteilung+"','"+old_addresse+"','old')";
-			m_connection.execUpdate(old_sql_string);
-			m_updates.put(4, new DBUpdate("Person", "vorname ='"+old_vorname+"' AND nachname= '"+old_nachname+"'", "vorname ='"+new_vorname+"' AND nachname= '"+new_nachname+"'"));
-
-		}
+		//if(action.equalsIgnoreCase("update")){
+		//	String old_sql_string = "INSERT INTO Person VALUES('"+old_vorname+"','"+old_nachname+"','"+old_abteilung+"','"+old_addresse+"','old')";
+		//	m_connection.execUpdate(old_sql_string);
+		//	m_updates.put(4, new DBUpdate("Person", "vorname ='"+old_vorname+"' AND nachname= '"+old_nachname+"'", "vorname ='"+new_vorname+"' AND nachname= '"+new_nachname+"'"));
+		//
+		//}
 		
-		De.bug(sql_string);
 		return m_connection.execUpdate(sql_string);
 	} 
 	
@@ -210,7 +224,7 @@ public class MysqlMapper implements Mapper{
 		String new_aname="";
 		
 		if (pks.size() != 0){
-			old_aname = pks.getString("name");
+			old_aname = pks.getString("aname");
 		}
 		
 		if (values.size() != 0){
@@ -222,24 +236,21 @@ public class MysqlMapper implements Mapper{
 		if(action.equalsIgnoreCase("insert"))
 			sql_string = "INSERT INTO Abteilung VALUES('"+new_aname+"','current')";
 		else if(action.equalsIgnoreCase("update"))	{
-			sql_string = "UPDATE Abteilung SET sync_state = 'current', aname = '"+ new_aname +"' WHERE aname = '"+ old_aname +"')";
+			sql_string = "UPDATE Abteilung SET sync_state = 'current', aname = '"+ new_aname +"' WHERE aname = '"+ old_aname +"'";
 		}else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Abteilung WHERE aname = '"+ old_aname +"'"; 
 		
-		De.bug(sql_string);
 		return m_connection.execUpdate(sql_string);
 	} 
 	
 	
-
-	
-	public boolean revertUpdate(int id){
-		String sql = m_updates.get(id).revertUpdate();
-		return m_connection.execUpdate(sql);
-	}
-	
-	public boolean approveUpdate(int id){
-		String sql = m_updates.get(id).approveUpdate();
-		return m_connection.execUpdate(sql);
-	}
+//	public boolean revertUpdate(int id){
+//		String sql = m_updates.get(id).revertUpdate();
+//		return m_connection.execUpdate(sql);
+//	}
+//	
+//	public boolean approveUpdate(int id){
+//		String sql = m_updates.get(id).approveUpdate();
+//		return m_connection.execUpdate(sql);
+//	}
 }

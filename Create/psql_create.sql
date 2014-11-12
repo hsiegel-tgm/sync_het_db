@@ -59,41 +59,41 @@ ALTER TABLE Logged ADD CONSTRAINT PK_Logged PRIMARY KEY (id);
 --    ON Mitarbeiter FOR EACH ROW
 --    EXECUTE PROCEDURE function_name1 ( NEW.name, NEW.abteilung );
 
-INSERT INTO Mitarbeiter VALUES ('Hannah Siegel','HR',DEFAULT);
-INSERT INTO Mitarbeiter VALUES ('Nikolaus Schrack','Analysten',DEFAULT);
-INSERT INTO Mitarbeiter VALUES ('Paul Adeyemi','Sportabteilung',DEFAULT);
-INSERT INTO Mitarbeiter VALUES ('Wolfram Soyka','Finance',DEFAULT);
-INSERT INTO Mitarbeiter VALUES ('Jakob Saxinger','Kueche',DEFAULT);
-INSERT INTO Mitarbeiter VALUES ('Philip Schwarzkopf','Sales',DEFAULT);
-INSERT INTO Mitarbeiter VALUES ('Elias Frantar','Kindergarten',DEFAULT);
-INSERT INTO Mitarbeiter VALUES ('Gary Ye','Putzfrauenabteilung',DEFAULT);
-INSERT INTO Mitarbeiter VALUES ('Aly Ahmed','Facility Management',DEFAULT);
-INSERT INTO Mitarbeiter VALUES ('Martin Haidn','Managment',DEFAULT);
-INSERT INTO Mitarbeiter VALUES ('Dominik Scholz','IT',DEFAULT);
+INSERT INTO Mitarbeiter VALUES ('Hannah Siegel','HR','current');
+INSERT INTO Mitarbeiter VALUES ('Nikolaus Schrack','Analysten','current');
+INSERT INTO Mitarbeiter VALUES ('Paul Adeyemi','Sportabteilung','current');
+INSERT INTO Mitarbeiter VALUES ('Wolfram Soyka','Finance','current');
+INSERT INTO Mitarbeiter VALUES ('Jakob Saxinger','Kueche','current');
+INSERT INTO Mitarbeiter VALUES ('Philip Schwarzkopf','Sales','current');
+INSERT INTO Mitarbeiter VALUES ('Elias Frantar','Kindergarten','current');
+INSERT INTO Mitarbeiter VALUES ('Gary Ye','Putzfrauenabteilung','current');
+INSERT INTO Mitarbeiter VALUES ('Aly Ahmed','Facility Management','current');
+INSERT INTO Mitarbeiter VALUES ('Martin Haidn','Managment','current');
+INSERT INTO Mitarbeiter VALUES ('Dominik Scholz','IT','current');
 
-INSERT INTO Veranstaltung VALUES ('Halloween party',TO_DATE('31.10.2014', 'DD.MM.YYYY'),false,10,DEFAULT);
-INSERT INTO Veranstaltung VALUES ('PPM Vortrag',TO_DATE('11.07.2014', 'DD.MM.YYYY'),true,0,DEFAULT);
-INSERT INTO Veranstaltung VALUES ('Herbstwanderung',TO_DATE('11.11.2014', 'DD.MM.YYYY'),false,5,DEFAULT);
-INSERT INTO Veranstaltung VALUES ('Party1',TO_DATE('04.01.2014', 'DD.MM.YYYY'),false,10,DEFAULT);
-INSERT INTO Veranstaltung VALUES ('Party2',TO_DATE('27.10.2014', 'DD.MM.YYYY'),false,10,DEFAULT);
-INSERT INTO Veranstaltung VALUES ('ABC Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),true,50,DEFAULT);
-INSERT INTO Veranstaltung VALUES ('CCC',TO_DATE('31.10.2015', 'DD.MM.YYYY'),true,0,DEFAULT);
-INSERT INTO Veranstaltung VALUES ('Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),false,0,DEFAULT);
-INSERT INTO Veranstaltung VALUES ('Party3',TO_DATE('31.10.2014', 'DD.MM.YYYY'),false,25,DEFAULT);
-INSERT INTO Veranstaltung VALUES ('Vortrag Wichtig',TO_DATE('13.12.2014', 'DD.MM.YYYY'),true,0,DEFAULT);
-INSERT INTO Veranstaltung VALUES ('Vortrag zach',TO_DATE('18.11.2014', 'DD.MM.YYYY'),false,20,DEFAULT);
+INSERT INTO Veranstaltung VALUES ('Halloween party',TO_DATE('31.10.2014', 'DD.MM.YYYY'),false,10,'current');
+INSERT INTO Veranstaltung VALUES ('PPM Vortrag',TO_DATE('07.11.2014', 'DD.MM.YYYY'),true,0,'current');
+INSERT INTO Veranstaltung VALUES ('Herbstwanderung',TO_DATE('11.11.2014', 'DD.MM.YYYY'),false,5,'current');
+INSERT INTO Veranstaltung VALUES ('Party1',TO_DATE('04.01.2014', 'DD.MM.YYYY'),false,10,'current');
+INSERT INTO Veranstaltung VALUES ('Party2',TO_DATE('27.10.2014', 'DD.MM.YYYY'),false,10,'current');
+INSERT INTO Veranstaltung VALUES ('ABC Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),true,50,'current');
+INSERT INTO Veranstaltung VALUES ('CCC',TO_DATE('31.10.2015', 'DD.MM.YYYY'),true,0,'current');
+INSERT INTO Veranstaltung VALUES ('Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),false,0,'current');
+INSERT INTO Veranstaltung VALUES ('Party3',TO_DATE('31.10.2014', 'DD.MM.YYYY'),false,25,'current');
+INSERT INTO Veranstaltung VALUES ('Vortrag Wichtig',TO_DATE('13.12.2014', 'DD.MM.YYYY'),true,0,'current');
+INSERT INTO Veranstaltung VALUES ('Vortrag zach',TO_DATE('18.11.2014', 'DD.MM.YYYY'),false,20,'current');
 
-INSERT INTO Besucher VALUES ('Martin Haidn','PPM Vortrag',TO_DATE('11.07.2014', 'DD.MM.YYYY'),DEFAULT);
-INSERT INTO Besucher VALUES ('Hannah Siegel','PPM Vortrag',TO_DATE('11.07.2014', 'DD.MM.YYYY'),DEFAULT);
-INSERT INTO Besucher VALUES ('Paul Adeyemi','Party1',TO_DATE('04.01.2014', 'DD.MM.YYYY'),DEFAULT);
-INSERT INTO Besucher VALUES ('Wolfram Soyka','Vortrag Wichtig',TO_DATE('13.12.2014', 'DD.MM.YYYY'),DEFAULT);
-INSERT INTO Besucher VALUES ('Jakob Saxinger','Vortrag zach',TO_DATE('18.11.2014', 'DD.MM.YYYY'),DEFAULT);
-INSERT INTO Besucher VALUES ('Philip Schwarzkopf','Herbstwanderung',TO_DATE('11.11.2014', 'DD.MM.YYYY'),DEFAULT);
-INSERT INTO Besucher VALUES ('Elias Frantar','CCC',TO_DATE('31.10.2015', 'DD.MM.YYYY'),DEFAULT);
-INSERT INTO Besucher VALUES ('Gary Ye','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),DEFAULT);
-INSERT INTO Besucher VALUES ('Aly Ahmed','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),DEFAULT);
-INSERT INTO Besucher VALUES ('Martin Haidn','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),DEFAULT);
-INSERT INTO Besucher VALUES ('Dominik Scholz','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),DEFAULT);
+INSERT INTO Besucher VALUES ('Martin Haidn','PPM Vortrag',TO_DATE('11.07.2014', 'DD.MM.YYYY'),'current');
+INSERT INTO Besucher VALUES ('Hannah Siegel','PPM Vortrag',TO_DATE('11.07.2014', 'DD.MM.YYYY'),'current');
+INSERT INTO Besucher VALUES ('Paul Adeyemi','Party1',TO_DATE('04.01.2014', 'DD.MM.YYYY'),'current');
+INSERT INTO Besucher VALUES ('Wolfram Soyka','Vortrag Wichtig',TO_DATE('13.12.2014', 'DD.MM.YYYY'),'current');
+INSERT INTO Besucher VALUES ('Jakob Saxinger','Vortrag zach',TO_DATE('18.11.2014', 'DD.MM.YYYY'),'current');
+INSERT INTO Besucher VALUES ('Philip Schwarzkopf','Herbstwanderung',TO_DATE('11.11.2014', 'DD.MM.YYYY'),'current');
+INSERT INTO Besucher VALUES ('Elias Frantar','CCC',TO_DATE('31.10.2015', 'DD.MM.YYYY'),'current');
+INSERT INTO Besucher VALUES ('Gary Ye','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),'current');
+INSERT INTO Besucher VALUES ('Aly Ahmed','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),'current');
+INSERT INTO Besucher VALUES ('Martin Haidn','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),'current');
+INSERT INTO Besucher VALUES ('Dominik Scholz','Weihnachtsfeier',TO_DATE('23.12.2014', 'DD.MM.YYYY'),'current');
 
 -----------------------------------------------------------------------------------------------------------------
 -------------------------------------------------- MITARBEITER --------------------------------------------------
@@ -118,10 +118,13 @@ FOR EACH ROW EXECUTE PROCEDURE insert_into_Mitarbeiter();
 CREATE OR REPLACE FUNCTION update_Mitarbeiter() RETURNS TRIGGER AS $mitarbeiter2$
     BEGIN
 		IF NEW.sync = 'new' THEN
-			INSERT INTO Logged(id,action,tableName,old_values,new_values,date_done) VALUES (DEFAULT,'update','Person','{"name":"'||OLD.name||'","addresse":"","aname":"'||OLD.abteilung||'"}','{"name":"'||NEW.name||'","addresse":"","abteilung":"'||NEW.abteilung||'"}',current_timestamp);
+			INSERT INTO Logged(id,action,tableName,old_values,new_values,date_done) VALUES (DEFAULT,'update','Person','{"name":"'||OLD.name||'","addresse":"","aname":"'||OLD.abteilung||'"}','{"name":"'||NEW.name||'","addresse":"","aname":"'||NEW.abteilung||'"}',current_timestamp);
+	-- 	RETURN NULL;
+		-- ELSE
+		 --	RETURN NEW;
 		END IF;
+		RETURN NEW;
        
-	   RETURN NULL;
 	   -- RETURN NEW;
     END;
 $mitarbeiter2$ LANGUAGE plpgsql;
@@ -134,9 +137,9 @@ FOR EACH ROW EXECUTE PROCEDURE update_Mitarbeiter();
 
 CREATE OR REPLACE FUNCTION delete_from_Mitarbeiter() RETURNS TRIGGER AS $mitarbeiter3$
     BEGIN
-		-- IF NEW.sync = 'new' THEN
+		 --IF OLD.sync = 'deleting' THEN
 			INSERT INTO Logged(id,action,tableName,old_values,new_values,date_done) VALUES (DEFAULT,'delete','Person','{"name":"'||OLD.name||'","addresse":"","aname":"'||OLD.abteilung||'"}','{}',current_timestamp);
-		-- END IF;
+		 --END IF;
        
 	   RETURN NEW;
     END;
@@ -176,9 +179,11 @@ CREATE OR REPLACE FUNCTION update_Veranstaltung() RETURNS TRIGGER AS $veranstalt
     BEGIN
         IF NEW.sync = 'new' THEN
 			INSERT INTO Logged(id,action,tableName,old_values,new_values,date_done) VALUES (DEFAULT,'update','Veranstaltung','{"vname":"'||OLD.vname||'","date":"'||OLD.date||'","verpflichtend":'||OLD.verpflichtend||',"kosten":'||OLD.kosten||'}','{"vname":"'||NEW.vname||'","date":"'||NEW.date||'","verpflichtend":'||NEW.verpflichtend||',"kosten":'||NEW.kosten||'}' ,current_timestamp);
-        END IF;
-
-		RETURN NULL;
+	-- 	RETURN NULL;
+		-- ELSE
+		 --	RETURN NEW;
+		END IF;
+		RETURN NEW;
     END;
 $veranstaltung2$ LANGUAGE plpgsql;
 
@@ -233,9 +238,11 @@ CREATE OR REPLACE FUNCTION update_Besucher() RETURNS TRIGGER AS $besucher2$
     BEGIN
 		IF NEW.sync = 'new' THEN
 			INSERT INTO Logged(id,action,tableName,old_values,new_values,date_done) VALUES (DEFAULT,'update','Teilnehmer','{"vname":"'||OLD.vname||'","date":"'||OLD.date||'","name":"'||OLD.name||'"}','{"vname":"'||NEW.vname||'","date":"'||NEW.date||'","name":"'||NEW.name||'"}' ,current_timestamp);
-        END IF;
-
-		RETURN NULL;
+		-- 	RETURN NULL;
+		-- ELSE
+		 --	RETURN NEW;
+		END IF;
+		RETURN NEW;
     END;
 $besucher2$ LANGUAGE plpgsql;
 
@@ -247,7 +254,7 @@ FOR EACH ROW EXECUTE PROCEDURE update_Besucher();
 
 CREATE OR REPLACE FUNCTION delete_from_Besucher() RETURNS TRIGGER AS $besucher3$
     BEGIN
-		-- IF NEW.sync = 'new' THEN
+		-- IF OLD.sync = 'new' THEN
 			INSERT INTO Logged(id,action,tableName,old_values,new_values,date_done) VALUES (DEFAULT,'delete','Teilnehmer','{"vname":"'||OLD.vname||'","date":"'||OLD.date||'","name":"'||OLD.name||'"}','{}',current_timestamp);
     	-- END IF;
 
@@ -259,21 +266,18 @@ CREATE TRIGGER delete_from_Besucher_trigger AFTER DELETE ON Besucher
 FOR EACH ROW EXECUTE PROCEDURE delete_from_Besucher();
 
 
-
-
-
 -- Testdaten
 
--- INSERT INTO Mitarbeiter VALUES('vorname1 mittelname1 nachname1','abteilung3');
--- INSERT INTO Veranstaltung VALUES ('Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),false,50);
--- INSERT INTO Besucher VALUES ('vorname1 mittelname1 nachname1','Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'));
+ INSERT INTO Mitarbeiter VALUES('vorname1 mittelname1 nachname1','abteilung3',DEFAULT);
+ INSERT INTO Veranstaltung VALUES ('Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),false,50,DEFAULT);
+ INSERT INTO Besucher VALUES ('vorname1 mittelname1 nachname1','Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),DEFAULT);
 
--- UPDATE Mitarbeiter SET abteilung = 'abteilungNEU' WHERE name = 'vorname1 mittelname1 nachname1';
--- UPDATE Veranstaltung SET verpflichtend = true WHERE vname = 'Tolle Konferenz';
--- UPDATE Besucher SET name = 'Hannah Siegel' WHERE vname = 'CCC';
+ UPDATE Mitarbeiter SET abteilung = 'abteilungNEU',sync='new' WHERE name = 'vorname1 mittelname1 nachname1';
+ UPDATE Veranstaltung SET verpflichtend = true,sync='new' WHERE vname = 'Tolle Konferenz';
+ UPDATE Besucher SET name = 'Hannah Siegel',sync='new' WHERE vname = 'CCC';
 
--- DELETE FROM Besucher WHERE name = 'vorname1 mittelname1 nachname1';
--- DELETE FROM Mitarbeiter WHERE name = 'vorname1 mittelname1 nachname1';
--- DELETE FROM Veranstaltung WHERE vname = 'Tolle Konferenz';
+ DELETE FROM Besucher WHERE name = 'Jakob Saxinger';
+ DELETE FROM Mitarbeiter WHERE name = 'vorname1 mittelname1 nachname1';
+ DELETE FROM Veranstaltung WHERE vname = 'Tolle Konferenz';
 
 SELECT * FROM Logged;

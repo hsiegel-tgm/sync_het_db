@@ -16,6 +16,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 
 import remoteInterfaces.Mapper;
+import remoteInterfaces.Register;
 import start.De;
 
 import com.mysql.jdbc.Connection;
@@ -75,10 +76,11 @@ public class ChangeListenerMysql implements Runnable {
 			}
 			
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(5500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+
 }

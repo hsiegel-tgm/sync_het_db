@@ -60,8 +60,7 @@ public class ChangeListenerPostgres implements Runnable {
 						String values = rs.getString(5); 
 						java.sql.Date date = rs.getDate(6); 
 
-						 boolean worked = m_mapper.execute(m_nameID,id, action, table, pks, values, date);
-						//De.bug("I am here." + m_mapper.execute(null, , action, table, pks, values, date));
+						boolean worked = m_mapper.execute(m_nameID,id, action, table, pks, values, date);
 						
 						if(worked){
 							m_connectionobj.delteLogger(id);							
@@ -77,7 +76,7 @@ public class ChangeListenerPostgres implements Runnable {
 			}
 
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -6,7 +6,4 @@ import java.util.Date;
 
 public interface Mapper extends Remote {
 	public boolean execute(String caller, int id, String action, String table, String pks, String values, Date date) throws RemoteException;
-	public boolean revertUpdate(int id);
-	public boolean approveUpdate(int id);
-
 }

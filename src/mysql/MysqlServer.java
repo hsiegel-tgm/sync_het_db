@@ -8,10 +8,10 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 
-import balancer.MapperRegister;
-import balancer.SyncServer;
 import remoteInterfaces.Mapper;
+import remoteInterfaces.MapperRegister;
 import start.De;
+import syncserver.SyncServer;
 
 public class MysqlServer {
 	Mapper stub;

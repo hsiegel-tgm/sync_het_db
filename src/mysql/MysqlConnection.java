@@ -11,10 +11,32 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
+/**
+ * The class MysqlConnection is connection to the mysql database and has some of the important functions for inserting, updating...
+ * 
+ * @author Hannah Siegel
+ * @version 2014-11-12
+ *
+ */
 public class MysqlConnection implements SyncDBConnector {
+	//Connection to the DB
 	private Connection m_connection;
 	
-	public MysqlConnection(String db, String host, String user, String pw){
+	//name of the connection
+	private String m_nameID;
+	
+	/**
+	 * The constructor of the class, starts the connection
+	 * 
+	 * @param db
+	 * @param host
+	 * @param user
+	 * @param pw
+	 * @param name - name of the connection
+	 */
+	public MysqlConnection(String db, String host, String user, String pw,String name){
+		m_nameID = name;
+		
 		try {
 			com.mysql.jdbc.jdbc2.optional.MysqlDataSource d = new
 			com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
@@ -23,13 +45,15 @@ public class MysqlConnection implements SyncDBConnector {
 			d.setUser(user);
 			d.setPassword(pw);
 			m_connection = (Connection) d.getConnection();
+			De.bug("Succesfully connected to "+name);
 		}catch(Exception e){
-			//TODO error handling
-			System.out.println(e.getMessage());
+			System.out.println("Connection to "+name+" DB was not possible: "+e.getMessage());
 		}
-		De.bug("Succesfully connected to mysql db");
 	}
 	
+	/* (non-Javadoc)
+	 * @see remoteInterfaces.SyncDBConnector#getLoggerCount()
+	 */
 	public int getLoggerCount() {
 		Statement st;
 		int rows = 0;
@@ -45,6 +69,9 @@ public class MysqlConnection implements SyncDBConnector {
 		return rows;
 	}
 
+	/* (non-Javadoc)
+	 * @see remoteInterfaces.SyncDBConnector#getLoggerContent()
+	 */
 	public ResultSet getLoggerContent() {
 		Statement st;
 		ResultSet rs = null;
@@ -57,6 +84,9 @@ public class MysqlConnection implements SyncDBConnector {
 		return rs;
 	}
 
+	/* (non-Javadoc)
+	 * @see remoteInterfaces.SyncDBConnector#delteLogger(int)
+	 */
 	public int delteLogger(int id) {
 		Statement st;
 		int ret = 0;
@@ -69,10 +99,16 @@ public class MysqlConnection implements SyncDBConnector {
 		return ret;
 	}
 	
+	/**
+	 * @return Connection
+	 */
 	public Connection getConnection(){
 		return m_connection;
 	}
 	
+	/* (non-Javadoc)
+	 * @see remoteInterfaces.SyncDBConnector#execQuery(java.lang.String)
+	 */
 	public boolean execQuery(String sql) {
 		Statement st;
 		boolean ret = true;
@@ -83,11 +119,14 @@ public class MysqlConnection implements SyncDBConnector {
 			e.printStackTrace();
 			ret = false;
 		}
-		De.bug("Mysql1 Executed Query : "+sql+"\n : "+ret);
+		System.out.println(m_nameID+" Executed Query : "+sql+" : "+ret);
 
 		return ret;
 	}
 	
+	/* (non-Javadoc)
+	 * @see remoteInterfaces.SyncDBConnector#execUpdate(java.lang.String)
+	 */
 	public boolean execUpdate(String sql) {
 		Statement st;
 		boolean ret = true;
@@ -98,11 +137,14 @@ public class MysqlConnection implements SyncDBConnector {
 			e.printStackTrace();
 			ret = false;
 		}
-		De.bug("Mysql1 Executed Query : "+sql+"\n : "+ret);
+		System.out.println(m_nameID+" Executed Query : "+sql+" : "+ret);
 
 		return ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see remoteInterfaces.SyncDBConnector#isInDB(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public boolean isInDB(String table, String attribute, String value) {
 		Statement st;
 		ResultSet rs = null;
@@ -118,5 +160,14 @@ public class MysqlConnection implements SyncDBConnector {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public void close(){
+		try {
+			m_connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

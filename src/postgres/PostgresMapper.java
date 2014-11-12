@@ -29,7 +29,6 @@ public class PostgresMapper implements Mapper{
 		JsonObject values = jsonReader_values.readObject();
 		jsonReader_values.close();
 		
-		//TODO glob schema!!
 		if(table.equalsIgnoreCase("Teilnehmer")){
 			ret = executeTeilnehmer(action, primary_keys, values);
 		}else if (table.equalsIgnoreCase("Veranstaltung")){
@@ -48,25 +47,24 @@ public class PostgresMapper implements Mapper{
 		String new_name="", new_vname="",new_date="";
 
 		if (pks.size() != 0){
-			 old_name = pks.getString("vorname") +" "+  pks.getString("nachname");
+			 old_name = pks.getString("name");
 			 old_vname = pks.getString("vname");
 			 old_date = (pks.getString("date"));
 		}
 		if (values.size() != 0){
-			new_name = values.getString("vorname") +" "+  values.getString("nachname");
+			new_name = values.getString("name");
 			new_vname = values.getString("vname");
 			new_date = (values.getString("date"));
 		}
 		String sql_string="";
 		
 		if(action.equalsIgnoreCase("insert"))
-			sql_string = "INSERT INTO Besucher VALUES('"+new_name+"','"+new_vname+"',TO_DATE('"+new_date+"','DD.MM.YYYY'),'current')";
+			sql_string = "INSERT INTO Besucher VALUES('"+new_name+"','"+new_vname+"',TO_DATE('"+new_date+"','YYYY-MM-DD'),'current')";
 		else if(action.equalsIgnoreCase("update"))	
 			sql_string = "UPDATE Besucher SET sync = 'current', name = '"+ new_name +"', vname =  '"+ new_vname +"', date =  '"+ new_date +"' WHERE name = '"+ old_name +"' AND vname = '"+ old_vname +"' AND date = '"+ old_date +"' ";
 		else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Besucher WHERE name = '"+ old_name +"' AND vname = '"+ old_vname +"' AND date = '"+ old_date +"'"; 
 		
-		De.bug("Postgres would like to run:  "+sql_string);
 		return m_connection.execUpdate(sql_string);
 	} 
 	
@@ -82,14 +80,8 @@ public class PostgresMapper implements Mapper{
 		}
 		
 		if (values.size() != 0){
-			int a = values.getInt("verpflichtend");
-			if(a==0){
-				new_verpflichtend = false;
-			}
-			else{
-				new_verpflichtend = true;
-			}
-			
+			new_verpflichtend = convert_to_postgres_boolean(values, "verpflichtend");
+			De.bug("postgres bool:"+new_verpflichtend);
 			new_kosten = values.getInt("kosten");
 			new_vname = values.getString("vname");
 			new_date = (values.getString("date"));
@@ -97,17 +89,33 @@ public class PostgresMapper implements Mapper{
 		String sql_string="";
 		
 		if(action.equalsIgnoreCase("insert"))
-			sql_string = "INSERT INTO Veranstaltung VALUES('"+new_vname+"',TO_DATE('"+new_date+"','DD.MM.YYYY'),"+new_verpflichtend+","+new_kosten+",'current')";
+			sql_string = "INSERT INTO Veranstaltung VALUES('"+new_vname+"',TO_DATE('"+new_date+"','YYYY-MM-DD'),"+new_verpflichtend+","+new_kosten+",'current')";
 		else if(action.equalsIgnoreCase("update"))	{
 			sql_string = "UPDATE Veranstaltung SET sync = 'current', vname = '"+ new_vname +"', kosten = "+ new_kosten +", date =  TO_DATE('"+ new_date +"','DD.MM.YYYY'), verpflichtend =  "+ new_verpflichtend +" WHERE vname = '"+ old_vname +"' AND date = TO_DATE('"+ old_date +"','DD.MM.YYYY')";
 		}else if(action.equalsIgnoreCase("delete"))	
 			sql_string = "DELETE FROM Veranstaltung WHERE vname = '"+ old_vname +"' AND date = '"+ old_date +"'"; 
 		
-		De.bug("Postgres would like to run:  "+sql_string);
 		return m_connection.execUpdate(sql_string);
 
 	} 
-
+	
+	public boolean convert_to_postgres_boolean(JsonObject values, String name){
+		try{
+			return values.getBoolean(name);
+		}catch(Exception e){
+			try{
+				int v = values.getInt(name);
+				if(v == 1)
+					return true;
+				else
+					return false;
+			}
+			catch(Exception e2){
+				return false;
+			}
+		}
+	}
+	
 	public boolean executePerson(String action, JsonObject pks, JsonObject values){
 		String old_name="";
 		String new_name="",new_abteilung="",new_addresse="";
@@ -129,19 +137,14 @@ public class PostgresMapper implements Mapper{
 		else if(action.equalsIgnoreCase("update"))	{
 			sql_string = "UPDATE Mitarbeiter SET sync = 'current', name = '"+ new_name+"', abteilung =  '"+ new_abteilung +"' WHERE name = '"+ old_name+"'";
 		}else if(action.equalsIgnoreCase("delete"))	
-			sql_string = "DELETE FROM Mitarbeiter WHERE name = '"+ old_name +"'"; 
+			sql_string = "UPDATE Mitarbeiter SET sync = 'deleting' WHERE name = '"+ old_name +"';DELETE FROM Mitarbeiter WHERE name = '"+ old_name +"'"; 
 		
-		//TODO delete irgendwie?
-		//TODO -- '' -- evt mit einem delete state.
-		
-		
-		De.bug("Postgres would like to run:  "+sql_string);
 		return m_connection.execUpdate(sql_string);
 	} 
 	
 	public boolean executeAbteilung(String action, JsonObject pks, JsonObject values){
-		De.bug("Abteilung can not be synchronised");
+		System.out.println("Abteilung can not be synchronised");
 		return true;
-	} 
+	}
 
 }

@@ -11,11 +11,11 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
-import balancer.MapperRegister;
 import mysql.MysqlConnection;
 import mysql.MysqlMapper;
 import mysql.MysqlServer;
 import remoteInterfaces.Mapper;
+import remoteInterfaces.MapperRegister;
 import start.De;
 
 public class PostgresServer {
