@@ -13,7 +13,7 @@ public class Starter {
 		
 		//I used:  mysql vsdb_03 localhost usr_vsdb03 pw_vsdb03
 		if(arg.length < 6){
-			System.out.println("The usage is the following: \n <mysql|postgres> <db> <host> <user> <password> <syncserver-ip> \n Please note, that the database should be set up correctly, as it can be found in our protocol. ");
+			System.out.println("The usage is the following: \n <mysql|postgres|testing|syncserver> <db> <host> <user> <password> <sync_server_ip> \n Please note, that the database should be set up correctly, as it can be found in our protocol. ");
 		}
 		else{
 			String policy = "grant{permission java.security.AllPermission;};";
@@ -24,20 +24,20 @@ public class Starter {
 			String host = arg[2];
 			String user = arg[3];
 			String pw = arg[4];
-			String regip = arg[5];
+			String syncserver_ip = arg[5];
 
 			
 			if(db_type.equals("mysql")){
 				String name = "Mysql1";
-				MysqlConnection connection = new MysqlConnection(db,host,user,pw,"Mysql1");
-				MysqlServer srv = new MysqlServer(name,connection, regip);
-				ChangeListenerMysql clm = new ChangeListenerMysql(name,connection,regip);
+				MysqlConnection mysql_connection = new MysqlConnection(db,host,user,pw,"Mysql1");
+				MysqlServer srv = new MysqlServer(name,mysql_connection, syncserver_ip);
+				ChangeListenerMysql clm = new ChangeListenerMysql(name,mysql_connection,syncserver_ip);
 			}
 			else if(db_type.equals("postgres")){
 				String name = "Postgres1";
-				PostgresConnection connection = new PostgresConnection(db,host,user,pw,"Postgres1");
-				PostgresServer srv = new PostgresServer(name,connection,regip);
-				ChangeListenerPostgres clp = new ChangeListenerPostgres(name,connection,regip);
+				PostgresConnection pg_connection = new PostgresConnection("vsdb_03","192.168.232.128","postgres","hermine11","Postgres1");
+				PostgresServer srv = new PostgresServer(name,pg_connection,syncserver_ip);
+				ChangeListenerPostgres clp = new ChangeListenerPostgres(name,pg_connection,syncserver_ip);
 			}
 			else if(db_type.equals("syncserver")){
 				SyncServer a = new SyncServer();
@@ -46,17 +46,17 @@ public class Starter {
 				SyncServer a = new SyncServer();
 				// --------
 				MysqlConnection connection = new MysqlConnection(db,host,user,pw,"Mysql1");
-				MysqlServer srv = new MysqlServer("Mysql1",connection, regip);
+				MysqlServer srv = new MysqlServer("Mysql1",connection, syncserver_ip);
 				// --------
-				PostgresConnection connection2 = new PostgresConnection(db,host,user,pw,"Postgres1");
-				PostgresServer srv2 = new PostgresServer("Postgres1",connection2,regip);
+				PostgresConnection pgconnection = new PostgresConnection("vsdb_03","192.168.232.128","postgres","hermine11","Postgres1");
+				PostgresServer srv2 = new PostgresServer("Postgres1",pgconnection,syncserver_ip);
 				// --------
-				ChangeListenerMysql clm = new ChangeListenerMysql("Mysql1",connection,regip);
-				ChangeListenerPostgres clp = new ChangeListenerPostgres("Postgres1",connection2,regip);
+				ChangeListenerMysql clm = new ChangeListenerMysql("Mysql1",connection,syncserver_ip);
+				ChangeListenerPostgres clp = new ChangeListenerPostgres("Postgres1",pgconnection,syncserver_ip);
 			}
 			//TODO new auf yes aendern!
 			else{
-				System.out.println("The usage is the following: \n <mysql|postgres|testing|syncserver> <db> <host> <user> <password> \n Please note, that the database should be set up correctly, as it can be found in our protocol. ");
+				System.out.println("The usage is the following: \n <mysql|postgres|testing|syncserver> <db> <host> <user> <password> <sync_server_ip> \n Please note, that the database should be set up correctly, as it can be found in our protocol. ");
 			}
 		}
 	}

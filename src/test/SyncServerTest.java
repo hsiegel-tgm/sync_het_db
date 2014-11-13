@@ -55,20 +55,13 @@ public class SyncServerTest {
 		MysqlConnection connection = new MysqlConnection("vsdb_03","localhost","usr_vsdb03","pw_vsdb03","Mysql1");
 		MysqlServer srv = new MysqlServer("Mysql1",connection, "172.0.0.1");
 		// --------
-		PostgresConnection connection2 = new PostgresConnection("","","","","Postgres1");
-		PostgresServer srv2 = new PostgresServer("Postgres1",connection2,"127.0.0.1");
+		PostgresConnection pgconnection = new PostgresConnection("vsdb_03","192.168.232.128","postgres","hermine11","Postgres1");
+		PostgresServer srv2 = new PostgresServer("Postgres1",pgconnection,"127.0.0.1");
 		// --------
 		ChangeListenerMysql clm = new ChangeListenerMysql("Mysql1",connection,"127.0.0.1");
-		ChangeListenerPostgres clp = new ChangeListenerPostgres("Postgres1",connection2,"127.0.0.1");	
-		connection2.execUpdate("UPDATE PERSON SET aname='Abteilung2',sync_state='new' WHERE vorname='Paul'");
-		connection2.close();
+		ChangeListenerPostgres clp = new ChangeListenerPostgres("Postgres1",pgconnection,"127.0.0.1");	
+		pgconnection.execUpdate("DELETE FROM Besucher WHERE name='Paul Adeyemi'");
+		pgconnection.close();
 		connection.close();
-
-		//SyncServer tester = new SyncServer();
-		//SyncServer tester2 = new SyncServer();
-
-	    //assertEquals("Sync Server already bound, can not bound it again", outContent.toString());
 	}
-
-	
 }

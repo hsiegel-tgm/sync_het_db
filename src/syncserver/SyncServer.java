@@ -80,34 +80,19 @@ public class SyncServer implements MapperRegister {
 		} else {
 			ret = true;
 			 for (Entry entry : m_mapperObj.entrySet()) {
-					String key = entry.getKey().toString();
-
-					//De.bug("entry: "+entry.toString());
-					//De.bug("key: "+key);
-					De.bug("working updates: "+working_updates.toString());
-
-					De.bug("y | n: "+!(working_updates.contains(key)));
-
+				 String key = entry.getKey().toString();
 				 if(!(working_updates.contains(key))){
-					 De.bug("didnt work yet ...");
 					 
 					 if(action.equals("update")){
-						De.bug("update! ..."+key);
-						De.bug("working updates now: "+working_updates.toString());
 
 						Mapper mapperobj = (Mapper) entry.getValue();
 						De.bug("sync server sending update: to "+key);
 						ret =  mapperobj.execute(null, id, action,table,pks,values,date);
 						if(ret == true){
-							De.bug("it worked! ... adding to the elemetns");
 							working_updates.addElement(key);
 						}
 					}else{
-						 De.bug("no update! ...");
-
 						if(!(key.equals(caller))){
-							De.bug("It is not the caller("+caller+")! ...it's "+key);
-
 							Mapper mapperobj = (Mapper) entry.getValue();
 							De.bug("sync server sending insert or delete: to "+key);
 							ret =  mapperobj.execute(null, id, action,table,pks,values,date);

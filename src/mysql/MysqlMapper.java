@@ -189,8 +189,6 @@ public class MysqlMapper implements Mapper{
 				new_addresse = values.getString("addresse");
 			}catch(java.lang.NullPointerException npe){
 				System.out.println("hier:"+values.toString());
-				De.bug(splited.toString());
-				//TODO
 			}
 		}
 		

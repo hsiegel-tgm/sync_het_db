@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ PostgresTest.class,SyncServerTest.class, MysqlTest.class,TestSynchronisation.class })
+@SuiteClasses({ TestSynchronisation.class,PostgresTest.class,SyncServerTest.class, MysqlTest.class })
 public class AllTests {
 
 }

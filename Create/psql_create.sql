@@ -268,16 +268,16 @@ FOR EACH ROW EXECUTE PROCEDURE delete_from_Besucher();
 
 -- Testdaten
 
- INSERT INTO Mitarbeiter VALUES('vorname1 mittelname1 nachname1','abteilung3',DEFAULT);
- INSERT INTO Veranstaltung VALUES ('Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),false,50,DEFAULT);
- INSERT INTO Besucher VALUES ('vorname1 mittelname1 nachname1','Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),DEFAULT);
+--  INSERT INTO Mitarbeiter VALUES('vorname1 mittelname1 nachname1','abteilung3',DEFAULT);
+--  INSERT INTO Veranstaltung VALUES ('Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),false,50,DEFAULT);
+ -- INSERT INTO Besucher VALUES ('vorname1 mittelname1 nachname1','Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),DEFAULT);
 
- UPDATE Mitarbeiter SET abteilung = 'abteilungNEU',sync='new' WHERE name = 'vorname1 mittelname1 nachname1';
- UPDATE Veranstaltung SET verpflichtend = true,sync='new' WHERE vname = 'Tolle Konferenz';
- UPDATE Besucher SET name = 'Hannah Siegel',sync='new' WHERE vname = 'CCC';
+ -- UPDATE Mitarbeiter SET abteilung = 'abteilungNEU',sync='new' WHERE name = 'vorname1 mittelname1 nachname1';
+ -- UPDATE Veranstaltung SET verpflichtend = true,sync='new' WHERE vname = 'Tolle Konferenz';
+ -- UPDATE Besucher SET name = 'Hannah Siegel',sync='new' WHERE vname = 'CCC';
 
- DELETE FROM Besucher WHERE name = 'Jakob Saxinger';
- DELETE FROM Mitarbeiter WHERE name = 'vorname1 mittelname1 nachname1';
- DELETE FROM Veranstaltung WHERE vname = 'Tolle Konferenz';
+ -- DELETE FROM Besucher WHERE name = 'Jakob Saxinger';
+ -- DELETE FROM Mitarbeiter WHERE name = 'vorname1 mittelname1 nachname1';
+ -- DELETE FROM Veranstaltung WHERE vname = 'Tolle Konferenz';
 
 SELECT * FROM Logged;

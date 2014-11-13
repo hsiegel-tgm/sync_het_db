@@ -266,20 +266,20 @@ END;//
 delimiter ;
 
 
- INSERT INTO Teilnehmer VALUES ('Hannah','Siegel','Weihnachtsfeier','2014-12-23',DEFAULT);
-  UPDATE Teilnehmer SET  vorname='Wolfram', sync_state='new', nachname='Soyka' WHERE  vorname='Hannah' AND nachname='Siegel' AND vname='Weihnachtsfeier' AND date='2014-12-23';
-  DELETE FROM Teilnehmer WHERE vorname='Gary' AND nachname='Ye' AND vname='Weihnachtsfeier';
+ -- INSERT INTO Teilnehmer VALUES ('Hannah','Siegel','Weihnachtsfeier','2014-12-23',DEFAULT);
+ --   UPDATE Teilnehmer SET  vorname='Wolfram', sync_state='new', nachname='Soyka' WHERE  vorname='Hannah' AND nachname='Siegel' AND vname='Weihnachtsfeier' AND date='2014-12-23';
+  --  DELETE FROM Teilnehmer WHERE vorname='Gary' AND nachname='Ye' AND vname='Weihnachtsfeier';
 
-  INSERT INTO Veranstaltung VALUES ('Party20','2014-12-26',1,5,DEFAULT);
-  DELETE FROM Veranstaltung WHERE vname='Party3' AND date='2014-10-31';
-  UPDATE Veranstaltung SET  vname='Party200', sync_state='new' WHERE  vname='Party20' AND date='2014-12-26';
+ --   INSERT INTO Veranstaltung VALUES ('Party20','2014-12-26',1,5,DEFAULT);
+  --  DELETE FROM Veranstaltung WHERE vname='Party3' AND date='2014-10-31';
+  --  UPDATE Veranstaltung SET  vname='Party200', sync_state='new' WHERE  vname='Party20' AND date='2014-12-26';
 
-  INSERT INTO Person VALUES ('Max','Mustermann','HR','adresse Max Mustermann',DEFAULT);
-  UPDATE Person SET  addresse='neue addresse', sync_state='new' WHERE vorname='Nikolaus' AND nachname='Schrack';
-  DELETE FROM Person WHERE vorname='Nikolaus' AND nachname='Schrack';
+  --  INSERT INTO Person VALUES ('Max','Mustermann','HR','adresse Max Mustermann',DEFAULT);
+  --  UPDATE Person SET  addresse='neue addresse', sync_state='new' WHERE vorname='Nikolaus' AND nachname='Schrack';
+  --  DELETE FROM Person WHERE vorname='Nikolaus' AND nachname='Schrack';
 
-  INSERT INTO Abteilung VALUES ('Ganz Neue Abteilung',DEFAULT);
-  UPDATE Abteilung SET  aname='Neue Abteilung', sync_state='new' WHERE aname='Ganz Neue Abteilung';
-  DELETE FROM Abteilung WHERE aname='Buffet';
+  --  INSERT INTO Abteilung VALUES ('Ganz Neue Abteilung',DEFAULT);
+  --  UPDATE Abteilung SET  aname='Neue Abteilung', sync_state='new' WHERE aname='Ganz Neue Abteilung';
+ --   DELETE FROM Abteilung WHERE aname='Buffet';
 
 SELECT action, tableName from Logged;
