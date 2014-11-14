@@ -66,7 +66,7 @@ INSERT INTO Mitarbeiter VALUES ('Wolfram Soyka','Finance','current');
 INSERT INTO Mitarbeiter VALUES ('Jakob Saxinger','Kueche','current');
 INSERT INTO Mitarbeiter VALUES ('Philip Schwarzkopf','Sales','current');
 INSERT INTO Mitarbeiter VALUES ('Elias Frantar','Kindergarten','current');
-INSERT INTO Mitarbeiter VALUES ('Gary Ye','Putzfrauenabteilung','current');
+INSERT INTO Mitarbeiter VALUES ('Gary Ye','Abteilung Google','current');
 INSERT INTO Mitarbeiter VALUES ('Aly Ahmed','Facility Management','current');
 INSERT INTO Mitarbeiter VALUES ('Martin Haidn','Managment','current');
 INSERT INTO Mitarbeiter VALUES ('Dominik Scholz','IT','current');
@@ -129,7 +129,7 @@ CREATE OR REPLACE FUNCTION update_Mitarbeiter() RETURNS TRIGGER AS $mitarbeiter2
     END;
 $mitarbeiter2$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_Mitarbeiter_trigger BEFORE UPDATE ON Mitarbeiter
+CREATE TRIGGER update_Mitarbeiter_trigger AFTER UPDATE ON Mitarbeiter
 FOR EACH ROW EXECUTE PROCEDURE update_Mitarbeiter();
 
 
@@ -187,7 +187,7 @@ CREATE OR REPLACE FUNCTION update_Veranstaltung() RETURNS TRIGGER AS $veranstalt
     END;
 $veranstaltung2$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_Veranstaltung_trigger BEFORE UPDATE ON Veranstaltung
+CREATE TRIGGER update_Veranstaltung_trigger AFTER UPDATE ON Veranstaltung
 FOR EACH ROW EXECUTE PROCEDURE update_Veranstaltung();
 
 
@@ -246,7 +246,7 @@ CREATE OR REPLACE FUNCTION update_Besucher() RETURNS TRIGGER AS $besucher2$
     END;
 $besucher2$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_Besucher_trigger BEFORE UPDATE ON Besucher
+CREATE TRIGGER update_Besucher_trigger AFTER UPDATE ON Besucher
 FOR EACH ROW EXECUTE PROCEDURE update_Besucher();
 
 
@@ -268,16 +268,16 @@ FOR EACH ROW EXECUTE PROCEDURE delete_from_Besucher();
 
 -- Testdaten
 
---  INSERT INTO Mitarbeiter VALUES('vorname1 mittelname1 nachname1','abteilung3',DEFAULT);
---  INSERT INTO Veranstaltung VALUES ('Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),false,50,DEFAULT);
- -- INSERT INTO Besucher VALUES ('vorname1 mittelname1 nachname1','Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),DEFAULT);
+  INSERT INTO Mitarbeiter VALUES('vorname1 mittelname1 nachname1','abteilung3',DEFAULT);
+  INSERT INTO Veranstaltung VALUES ('Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),false,50,DEFAULT);
+ INSERT INTO Besucher VALUES ('vorname1 mittelname1 nachname1','Tolle Konferenz',TO_DATE('31.10.2014', 'DD.MM.YYYY'),DEFAULT);
 
- -- UPDATE Mitarbeiter SET abteilung = 'abteilungNEU',sync='new' WHERE name = 'vorname1 mittelname1 nachname1';
- -- UPDATE Veranstaltung SET verpflichtend = true,sync='new' WHERE vname = 'Tolle Konferenz';
- -- UPDATE Besucher SET name = 'Hannah Siegel',sync='new' WHERE vname = 'CCC';
-
- -- DELETE FROM Besucher WHERE name = 'Jakob Saxinger';
- -- DELETE FROM Mitarbeiter WHERE name = 'vorname1 mittelname1 nachname1';
- -- DELETE FROM Veranstaltung WHERE vname = 'Tolle Konferenz';
+  UPDATE Mitarbeiter SET abteilung = 'abteilungNEU',sync='new' WHERE name = 'vorname1 mittelname1 nachname1';
+  UPDATE Veranstaltung SET verpflichtend = true,sync='new' WHERE vname = 'Tolle Konferenz';
+  UPDATE Besucher SET name = 'Hannah Siegel',sync='new' WHERE vname = 'CCC';
+ 
+ DELETE FROM Besucher WHERE name = 'Jakob Saxinger';
+  DELETE FROM Mitarbeiter WHERE name = 'vorname1 mittelname1 nachname1';
+  DELETE FROM Veranstaltung WHERE vname = 'Tolle Konferenz';
 
 SELECT * FROM Logged;

@@ -1,0 +1,11 @@
+Person:
+{"name":"<name>", "addresse":"<addresse>","aname":"<aname>"}
+
+Teilnehmer:
+{"name":"<name>", "vname":"<vname>", "date":"<date>"}
+
+Veranstaltung:
+{"vname":"<vname>", "date":"<date>","verpflichtend":<verpflichtend>,"kosten":<kosten>}
+
+Abteilung:
+{"aname":"<aname>"}

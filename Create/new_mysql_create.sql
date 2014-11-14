@@ -56,7 +56,7 @@ INSERT INTO Abteilung VALUES ('Facility Management','current');
 INSERT INTO Abteilung VALUES ('Kueche','current');
 INSERT INTO Abteilung VALUES ('Finance','current');
 INSERT INTO Abteilung VALUES ('Managment','current');
-INSERT INTO Abteilung VALUES ('Putzfrauenabteilung','current');
+INSERT INTO Abteilung VALUES ('Abteilung Google','current');
 INSERT INTO Abteilung VALUES ('Kindergarten','current');
 INSERT INTO Abteilung VALUES ('Sales','current');
 INSERT INTO Abteilung VALUES ('Analysten','current');
@@ -124,12 +124,12 @@ delimiter ;
 delimiter //
 CREATE TRIGGER updateteilnehmer AFTER UPDATE ON Teilnehmer FOR EACH ROW
 BEGIN
-	declare msg varchar(255);
+	-- declare msg varchar(255);
 
 	IF NEW.sync_state = 'new' THEN
 		INSERT INTO Logged(action,tableName,old_values,new_values,date_done) VALUES ('update','Teilnehmer',CONCAT('{"name":"',OLD.vorname,' ',OLD.nachname,'","vname":"',OLD.vname,'","date":"',OLD.date,'"}'),CONCAT('{"name":"',NEW.vorname,' ',NEW.nachname,'","vname":"',NEW.vname,'","date":"',NEW.date,'"}'),NOW());
-		set msg = 'Your update has been staged and sent to the syncserver';
-        signal sqlstate '45000' set message_text = msg;		
+		-- set msg = 'Your update has been staged and sent to the syncserver';
+        -- signal sqlstate '45000' set message_text = msg;		
 	END IF;
 END;//
 delimiter ;
@@ -161,12 +161,12 @@ delimiter ;
 delimiter //
 CREATE TRIGGER updateveranstaltung AFTER UPDATE ON Veranstaltung FOR EACH ROW
 BEGIN
-	declare msg varchar(255);
+	-- declare msg varchar(255);
 
 	IF NEW.sync_state = 'new' THEN
 		INSERT INTO Logged(action,tableName,old_values,new_values,date_done) VALUES ('update','Veranstaltung',CONCAT('{"vname":"',OLD.vname,'","date":"',OLD.date,'","verpflichtend":',OLD.verpflichtend,',"kosten":',OLD.kosten,'}'),CONCAT('{"vname":"',NEW.vname,'","date":"',NEW.date,'","verpflichtend":',NEW.verpflichtend,',"kosten":',NEW.kosten,'}'),NOW());
-		set msg = 'Your update has been staged and sent to the syncserver';
-        signal sqlstate '45000' set message_text = msg;		
+		--  set msg = 'Your update has been staged and sent to the syncserver';
+        --  signal sqlstate '45000' set message_text = msg;		
 	END IF;
 
 END;//
@@ -201,12 +201,12 @@ delimiter ;
 delimiter //
 CREATE TRIGGER updateperson AFTER UPDATE ON Person FOR EACH ROW
 BEGIN
-    declare msg varchar(255);
+    -- declare msg varchar(255);
 
 	IF NEW.sync_state = 'new' THEN
 		INSERT INTO Logged(action,tableName,old_values,new_values,date_done) VALUES ('update','Person',CONCAT('{"name":"',OLD.vorname,' ',OLD.nachname,'","aname":"',OLD.aname,'","addresse":"',OLD.addresse,'"}'),CONCAT('{"name":"',NEW.vorname,' ',NEW.nachname,'","aname":"',NEW.aname,'","addresse":"',NEW.addresse,'"}'),NOW());
-		set msg = 'Your update has been staged and sent to the syncserver';
-        signal sqlstate '45000' set message_text = msg;		
+		-- set msg = 'Your update has been staged and sent to the syncserver';
+        -- signal sqlstate '45000' set message_text = msg;		
 	END IF;
 END;//
 delimiter ;
@@ -245,11 +245,11 @@ delimiter ;
 delimiter //
 CREATE TRIGGER updateabteilung AFTER UPDATE ON Abteilung FOR EACH ROW
 BEGIN
-	declare msg varchar(255);
+	-- declare msg varchar(255);
 	IF NEW.sync_state = 'new' THEN
 		INSERT INTO Logged(action,tableName,old_values,new_values,date_done) VALUES ('update','Abteilung',CONCAT('{"aname":"',OLD.aname,'"}'),CONCAT('{"aname":"',NEW.aname,'"}'),NOW());
-		set msg = 'Your update has been staged and sent to the syncserver';
-		signal sqlstate '45000' set message_text = msg;		
+		-- set msg = 'Your update has been staged and sent to the syncserver';
+		-- signal sqlstate '45000' set message_text = msg;		
 	END IF;
 END;//
 delimiter ;
@@ -266,20 +266,22 @@ END;//
 delimiter ;
 
 
- -- INSERT INTO Teilnehmer VALUES ('Hannah','Siegel','Weihnachtsfeier','2014-12-23',DEFAULT);
- --   UPDATE Teilnehmer SET  vorname='Wolfram', sync_state='new', nachname='Soyka' WHERE  vorname='Hannah' AND nachname='Siegel' AND vname='Weihnachtsfeier' AND date='2014-12-23';
-  --  DELETE FROM Teilnehmer WHERE vorname='Gary' AND nachname='Ye' AND vname='Weihnachtsfeier';
+  INSERT INTO Teilnehmer VALUES ('Hannah','Siegel','Weihnachtsfeier','2014-12-23',DEFAULT);
+    UPDATE Teilnehmer SET  vorname='Wolfram', sync_state='new', nachname='Soyka' WHERE  vorname='Hannah' AND nachname='Siegel' AND vname='Weihnachtsfeier' AND date='2014-12-23';
+    DELETE FROM Teilnehmer WHERE vorname='Gary' AND nachname='Ye' AND vname='Weihnachtsfeier';
 
- --   INSERT INTO Veranstaltung VALUES ('Party20','2014-12-26',1,5,DEFAULT);
-  --  DELETE FROM Veranstaltung WHERE vname='Party3' AND date='2014-10-31';
-  --  UPDATE Veranstaltung SET  vname='Party200', sync_state='new' WHERE  vname='Party20' AND date='2014-12-26';
+    INSERT INTO Veranstaltung VALUES ('Party20','2014-12-26',1,5,DEFAULT);
+    DELETE FROM Veranstaltung WHERE vname='Party3' AND date='2014-10-31';
+    UPDATE Veranstaltung SET  vname='Party200', sync_state='new' WHERE  vname='Party20' AND date='2014-12-26';
 
-  --  INSERT INTO Person VALUES ('Max','Mustermann','HR','adresse Max Mustermann',DEFAULT);
-  --  UPDATE Person SET  addresse='neue addresse', sync_state='new' WHERE vorname='Nikolaus' AND nachname='Schrack';
-  --  DELETE FROM Person WHERE vorname='Nikolaus' AND nachname='Schrack';
+    INSERT INTO Person VALUES ('Max','Mustermann','HR','adresse Max Mustermann',DEFAULT);
+    UPDATE Person SET  addresse='neue addresse', sync_state='new' WHERE vorname='Nikolaus' AND nachname='Schrack';
+    DELETE FROM Person WHERE vorname='Nikolaus' AND nachname='Schrack';
 
-  --  INSERT INTO Abteilung VALUES ('Ganz Neue Abteilung',DEFAULT);
-  --  UPDATE Abteilung SET  aname='Neue Abteilung', sync_state='new' WHERE aname='Ganz Neue Abteilung';
- --   DELETE FROM Abteilung WHERE aname='Buffet';
+   INSERT INTO Abteilung VALUES ('Ganz Neue Abteilung',DEFAULT);
+   UPDATE Abteilung SET  aname='Neue Abteilung', sync_state='new' WHERE aname='Ganz Neue Abteilung';
+    DELETE FROM Abteilung WHERE aname='Buffet';
 
+ 
+ 
 SELECT action, tableName from Logged;
